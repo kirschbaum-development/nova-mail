@@ -2,7 +2,7 @@
 
 namespace KirschbaumDevelopment\NovaMail;
 
-use KirschbaumDevelopment\NovaMail\Models\Mail;
+use KirschbaumDevelopment\NovaMail\Models\NovaSentMail;
 
 trait Mailable
 {
@@ -13,6 +13,6 @@ trait Mailable
      */
     public function mails()
     {
-        return $this->morphMany(Mail::class, 'mailable');
+        return $this->morphMany(NovaSentMail::class, 'mailable');
     }
 }

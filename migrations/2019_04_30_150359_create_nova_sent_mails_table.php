@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMailsTable extends Migration
+class CreateNovaSentMailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateMailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('mails', function (Blueprint $table) {
+        Schema::create('nova_sent_mails', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('mail_template_id')->nullable();
             $table->morphs('mailable');
+            $table->string('subject');
             $table->longText('content')->nullable();
             $table->timestamps();
         });

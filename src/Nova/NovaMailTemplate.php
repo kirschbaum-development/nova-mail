@@ -3,27 +3,27 @@
 namespace KirschbaumDevelopment\NovaMail\Nova;
 
 use Laravel\Nova\Resource;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\MorphTo;
-use Laravel\Nova\Fields\DateTime;
-use Laravel\Nova\Fields\Textarea;
-use KirschbaumDevelopment\NovaMail\Models\Mail as MailModel;
+use Laravel\Nova\Fields\Code;
+use Laravel\Nova\Fields\Text;
+use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate as NovaMailTemplateModel;
 
-class Mail extends Resource
+class NovaMailTemplate extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = MailModel::class;
+    public static $model = NovaMailTemplateModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -31,15 +31,8 @@ class Mail extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'name',
     ];
-
-    /**
-     * The number of resources to show per page via relationships.
-     *
-     * @var int
-     */
-    public static $perPageViaRelationship = 3;
 
     /**
      * Get the fields displayed by the resource.
@@ -51,9 +44,9 @@ class Mail extends Resource
     public function fields(Request $request)
     {
         return [
-            MorphTo::make('mailable'),
-            DateTime::make('Created At'),
-            Textarea::make('Content')->alwaysShow()->hideFromIndex(),
+            Text::make('name'),
+            Text::make('subject'),
+            Code::make('content')->language('markdown')->hideFromIndex(),
         ];
     }
 
@@ -103,5 +96,15 @@ class Mail extends Resource
     public function actions(Request $request)
     {
         return [];
+    }
+
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return Str::plural('Mail Template');
     }
 }

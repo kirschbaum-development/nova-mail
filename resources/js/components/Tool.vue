@@ -23,7 +23,7 @@
             dusk="subject"
             type="text"
             v-model="subject"
-            :placeholder="panel.fields[0].subject"
+            :placeholder="selectedTemplate.subject || panel.fields[0].subject"
             class="w-full form-control form-input form-input-bordered mb-2"
           >
 
@@ -64,7 +64,7 @@
         <div class="w-full py-6">
           <h3 class="text-90 font-bold text-lg mb-4">Mail History</h3>
 
-          <send-mail :initial-mail="mail" v-for="(mail, index) in mails.resources" :key="index"></send-mail>
+          <sent-mail :initial-mail="mail" v-for="(mail, index) in mails.resources" :key="index"></sent-mail>
         </div>
       </div>
 
@@ -106,7 +106,7 @@ export default {
       templateOverride: '',
       from: '',
       subject: '',
-      baseMailUri: '/nova-api/mails',
+      baseMailUri: '/nova-api/nova-sent-mails',
       mails: {
         next_page_url: '',
         prev_page_url: '',
@@ -165,7 +165,7 @@ export default {
         resourceId: this.resourceId,
         content: this.templateOverride,
         from: this.from,
-        subject: this.subject,
+        subject: this.subject || this.selectedTemplate.subject,
       }).then(({ data }) => {
         this.getMails(this.mailsUri)
         this.resetForm()
@@ -174,6 +174,8 @@ export default {
     },
 
     resetForm() {
+      this.from = ''
+      this.subject = ''
       this.templateOverride = ''
       this.selectedTemplate = ''
     }

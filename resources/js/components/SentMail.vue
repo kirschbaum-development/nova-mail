@@ -2,6 +2,13 @@
   <div class="py-4 border-t border-40">
     <div class="text-80 text-sm">Sent {{ date }}</div>
     <br>
+    <div class="text-80 text-sm">
+      <strong>
+        Subject:
+        {{ mail.subject }}
+      </strong>
+    </div>
+    <br>
     <div class="italic">
       <template v-if="mail.content">
         <div v-html="mail.content"></div>
@@ -27,7 +34,7 @@ export default {
   },
 
   mounted() {
-    axios.get(`/nova-mail/mail/${this.initialMail.id.value}`).then(({ data }) => this.mail = data.mail)
+    axios.get(`/nova-mail/sent-mail/${this.initialMail.id.value}`).then(({ data }) => this.mail = data.mail)
   },
 
   computed: {

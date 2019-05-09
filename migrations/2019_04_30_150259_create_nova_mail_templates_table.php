@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMailTemplatesTable extends Migration
+class CreateNovaMailTemplatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateMailTemplatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('mail_templates', function (Blueprint $table) {
+        Schema::create('nova_mail_templates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('subject')->nullable();
             $table->longText('content');
             $table->timestamps();
         });

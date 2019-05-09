@@ -8,10 +8,10 @@ use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use KirschbaumDevelopment\NovaMail\Nova\Mail;
-use KirschbaumDevelopment\NovaMail\Nova\MailTemplate;
-use KirschbaumDevelopment\NovaMail\Policies\MailPolicy;
-use KirschbaumDevelopment\NovaMail\Models\Mail as MailModel;
+use KirschbaumDevelopment\NovaMail\Nova\NovaSentMail;
+use KirschbaumDevelopment\NovaMail\Nova\NovaMailTemplate;
+use KirschbaumDevelopment\NovaMail\Policies\NovaSentMailPolicy;
+use KirschbaumDevelopment\NovaMail\Models\NovaSentMail as NovaSentMailModel;
 
 class NovaMailServiceProvider extends ServiceProvider
 {
@@ -54,14 +54,14 @@ class NovaMailServiceProvider extends ServiceProvider
 
     protected function policies()
     {
-        Gate::policy(MailModel::class, MailPolicy::class);
+        Gate::policy(NovaSentMailModel::class, NovaSentMailPolicy::class);
     }
 
     protected function nova()
     {
         Nova::resources([
-            Mail::class,
-            MailTemplate::class,
+            NovaSentMail::class,
+            NovaMailTemplate::class,
         ]);
 
         $this->app->booted(function () {

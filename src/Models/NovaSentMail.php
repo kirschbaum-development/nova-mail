@@ -4,7 +4,7 @@ namespace KirschbaumDevelopment\NovaMail\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Mail extends Model
+class NovaSentMail extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -13,6 +13,7 @@ class Mail extends Model
      */
     protected $fillable = [
         'mail_template_id',
+        'subject',
         'content',
     ];
 
@@ -43,19 +44,19 @@ class Mail extends Model
      */
     public function mailTemplate()
     {
-        return $this->belongsTo(MailTemplate::class);
+        return $this->belongsTo(NovaMailTemplate::class);
     }
 
     /**
      * Set the mail's mail template attribute.
      *
-     * @param MailTemplate|int $value
+     * @param NovaMailTemplate|int $value
      *
      * @return void
      */
     public function setMailTemplateAttribute($value)
     {
-        $value = $value instanceof MailTemplate ? $value->id : $value;
+        $value = $value instanceof NovaMailTemplate ? $value->id : $value;
         $this->attributes['mail_template_id'] = $value;
     }
 }

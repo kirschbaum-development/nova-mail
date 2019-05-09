@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use KirschbaumDevelopment\NovaMail\Http\Controllers\MailController;
 use KirschbaumDevelopment\NovaMail\Http\Controllers\SendMailController;
+use KirschbaumDevelopment\NovaMail\Http\Controllers\SentMailController;
 use KirschbaumDevelopment\NovaMail\Http\Controllers\TemplatesController;
 
 /*
@@ -17,5 +17,5 @@ use KirschbaumDevelopment\NovaMail\Http\Controllers\TemplatesController;
 */
 
 Route::get('/templates', TemplatesController::class);
-Route::get('/mail/{mail}', MailController::class);
+Route::get('/sent-mail/{mail}', SentMailController::class);
 Route::post('/send/{mailTemplate?}', SendMailController::class);

@@ -3,27 +3,28 @@
 namespace KirschbaumDevelopment\NovaMail\Nova;
 
 use Laravel\Nova\Resource;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\Text;
-use KirschbaumDevelopment\NovaMail\Models\MailTemplate as MailTemplateModel;
+use Laravel\Nova\Fields\MorphTo;
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\Textarea;
+use KirschbaumDevelopment\NovaMail\Models\NovaSentMail as NovaSentMailModel;
 
-class MailTemplate extends Resource
+class NovaSentMail extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = MailTemplateModel::class;
+    public static $model = NovaSentMailModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -31,8 +32,15 @@ class MailTemplate extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'id',
     ];
+
+    /**
+     * The number of resources to show per page via relationships.
+     *
+     * @var int
+     */
+    public static $perPageViaRelationship = 3;
 
     /**
      * Get the fields displayed by the resource.
@@ -44,8 +52,10 @@ class MailTemplate extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('name'),
-            Code::make('content')->language('markdown')->hideFromIndex(),
+            MorphTo::make('mailable'),
+            Text::make('subject'),
+            DateTime::make('Created At'),
+            Textarea::make('Content')->alwaysShow()->hideFromIndex(),
         ];
     }
 
@@ -104,6 +114,6 @@ class MailTemplate extends Resource
      */
     public static function label()
     {
-        return Str::plural('Mail Template');
+        return 'Sent Mails';
     }
 }

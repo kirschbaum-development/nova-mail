@@ -3,10 +3,10 @@
 namespace KirschbaumDevelopment\NovaMail\Policies;
 
 use App\User;
-use KirschbaumDevelopment\NovaMail\Models\Mail;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use KirschbaumDevelopment\NovaMail\Models\NovaSentMail;
 
-class MailPolicy
+class NovaSentMailPolicy
 {
     use HandlesAuthorization;
 
@@ -14,11 +14,11 @@ class MailPolicy
      * Determine whether the user can view the mail.
      *
      * @param  \App\User  $user
-     * @param  \App\Mail  $mail
+     * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
      *
      * @return mixed
      */
-    public function view(User $user, Mail $mail)
+    public function view(User $user, NovaSentMail $mail)
     {
         return true;
     }
@@ -39,11 +39,11 @@ class MailPolicy
      * Determine whether the user can update the mail.
      *
      * @param  \App\User  $user
-     * @param  \App\Mail  $mail
+     * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
      *
      * @return mixed
      */
-    public function update(User $user, Mail $mail)
+    public function update(User $user, NovaSentMail $mail)
     {
         return false;
     }
@@ -52,11 +52,11 @@ class MailPolicy
      * Determine whether the user can delete the mail.
      *
      * @param  \App\User  $user
-     * @param  \App\Mail  $mail
+     * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
      *
      * @return mixed
      */
-    public function delete(User $user, Mail $mail)
+    public function delete(User $user, NovaSentMail $mail)
     {
         return true;
     }
@@ -65,11 +65,11 @@ class MailPolicy
      * Determine whether the user can restore the mail.
      *
      * @param  \App\User  $user
-     * @param  \App\Mail  $mail
+     * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
      *
      * @return mixed
      */
-    public function restore(User $user, Mail $mail)
+    public function restore(User $user, NovaSentMail $mail)
     {
         return false;
     }
@@ -78,11 +78,11 @@ class MailPolicy
      * Determine whether the user can permanently delete the mail.
      *
      * @param  \App\User  $user
-     * @param  \App\Mail  $mail
+     * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
      *
      * @return mixed
      */
-    public function forceDelete(User $user, Mail $mail)
+    public function forceDelete(User $user, NovaSentMail $mail)
     {
         return true;
     }

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use KirschbaumDevelopment\NovaMail\Models\MailTemplate;
+use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate;
 
 class SendMail extends Mailable
 {
@@ -34,7 +34,7 @@ class SendMail extends Mailable
      *
      * @return void
      */
-    public function __construct(Model $model, MailTemplate $mailTemplate, string $content, string $from = null, string $subject = null)
+    public function __construct(Model $model, NovaMailTemplate $mailTemplate, string $content, string $from = null, string $subject = null)
     {
         $this->model = $model;
         $this->mailTemplate = $mailTemplate;
@@ -77,6 +77,9 @@ class SendMail extends Mailable
     {
         Storage::disk($this->disk())->put($this->path(), $this->content);
 
+        Storage::disk($this->disk())->put($this->path('subject'), $this->subject);
+        $this->subject(view('nova-mail::' . $this->filename('subject'), $this->model->toArray())->render());
+
         return $this;
     }
 
@@ -100,6 +103,7 @@ class SendMail extends Mailable
     private function record()
     {
         $this->model->mails()->create([
+            'subject' => $this->subject,
             'content' => $this->render(),
             'mail_template' => $this->mailTemplate,
         ]);
@@ -118,6 +122,8 @@ class SendMail extends Mailable
             Storage::disk($this->disk())->delete($this->path());
         }
 
+        Storage::disk($this->disk())->delete($this->path('subject'));
+
         return $this;
     }
 
@@ -134,20 +140,24 @@ class SendMail extends Mailable
     /**
      * The path of the compiled blade file.
      *
+     * @param string|null $append
+     *
      * @return string
      */
-    private function path()
+    private function path(string $append = null)
     {
-        return sprintf('%s/%s.blade.php', config('nova_mail.compiled_mail_path'), $this->filename());
+        return sprintf('%s/%s.blade.php', config('nova_mail.compiled_mail_path'), $this->filename($append));
     }
 
     /**
      * The filename of the compiled blade file.
      *
+     * @param string|null $append
+     *
      * @return string
      */
-    private function filename()
+    private function filename(string $append = null)
     {
-        return sprintf('%s_%d_%s', $this->timestamp, $this->model->id, strtolower(class_basename($this->model)));
+        return sprintf('%s_%d_%s%s', $this->timestamp, $this->model->id, strtolower(class_basename($this->model)), $append ? '_' . $append : '');
     }
 }
