@@ -12,7 +12,7 @@ class SendMailController extends Controller
     public function __invoke(Request $request, ?NovaMailTemplate $mailTemplate)
     {
         $model = $request->model::findOrFail($request->resourceId);
-        $mailable = new SendMail($model, $mailTemplate, $request->content, $request->from, $request->subject);
+        $mailable = new SendMail($model, $mailTemplate, $request->content, $request->to, $request->from, $request->subject);
         $mailable->deliver();
 
         return response()->json([
