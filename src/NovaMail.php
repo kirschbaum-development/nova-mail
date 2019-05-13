@@ -6,27 +6,14 @@ use Laravel\Nova\ResourceTool;
 
 class NovaMail extends ResourceTool
 {
-    /**
-     * @var string
-     */
-    protected $defaultFrom;
-
-    /**
-     * @var string
-     */
-    protected $defaultSubject;
-
     public function __construct()
     {
         parent::__construct();
 
-        $this->defaultFrom = config('nova_mail.default_from');
-        $this->defaultSubject = config('nova_mail.default_subject');
-
         $this->withMeta([
             'model' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)[1]['class']::$model,
-            'from' => $this->defaultFrom,
-            'subject' => $this->defaultSubject,
+            'from' => config('nova_mail.default_from'),
+            'subject' => config('nova_mail.default_subject'),
         ]);
     }
 

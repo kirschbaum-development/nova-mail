@@ -14,7 +14,17 @@
             type="text"
             v-model="from"
             class="w-full form-control form-input form-input-bordered mb-2"
-            :placeholder="panel.fields[0].from"
+            :placeholder="'[from] ' + panel.fields[0].from"
+          >
+
+          <input
+            name="to"
+            id="to"
+            dusk="to"
+            type="text"
+            readonly="true"
+            :value="to"
+            class="w-full form-control form-input form-input-bordered mb-2"
           >
 
           <input
@@ -23,7 +33,7 @@
             dusk="subject"
             type="text"
             v-model="subject"
-            :placeholder="selectedTemplate.subject || panel.fields[0].subject"
+            :placeholder="'[subject] ' + (selectedTemplate.subject || panel.fields[0].subject)"
             class="w-full form-control form-input form-input-bordered mb-2"
           >
 
@@ -49,6 +59,7 @@
             rows="10"
             v-model="templateOverride"
             class="w-full form-control form-input form-input-bordered py-3 h-auto"
+            placeholder="Adjust the mail template here or craft an email from scratch! You can use normal blade syntax and include attributes from this resources model..."
           ></textarea>
         </div>
       </div>
@@ -105,19 +116,22 @@ export default {
       selectedTemplate: '',
       templateOverride: '',
       from: '',
+      to: '',
       subject: '',
       baseMailUri: '/nova-api/nova-sent-mails',
       mails: {
         next_page_url: '',
         prev_page_url: '',
         resources: {},
-      }
+      },
+      model: {},
     }
   },
 
   mounted() {
     this.getMailTemplates()
-    this.getMails(this.mailsUri);
+    this.getMailable()
+    this.getMails(this.mailsUri)
   },
 
   computed: {
@@ -148,23 +162,34 @@ export default {
 
   methods: {
     getMailTemplates() {
-      axios.get('/nova-mail/templates').then(({ data }) => this.mailTemplates = data.templates || []);
+      Nova.request().get('/nova-mail/templates').then(({ data }) => this.mailTemplates = data.templates || []);
     },
 
     paginationClass(isActive) {
       return isActive ? 'text-primary dim' : 'test-80 opacity-50'
     },
 
+    getMailable() {
+      Nova.request().post('/nova-mail/mailable', {
+        mailableClass: this.panel.fields[0].model,
+        mailableId: this.resourceId,
+      }).then(({ data }) => {
+        this.model = data.model
+        this.to = data.to
+      })
+    },
+
     getMails(uri) {
-      axios.get(`${uri}${this.mailsQueryParams}`).then(({ data }) => this.mails = data)
+      Nova.request().get(`${uri}${this.mailsQueryParams}`).then(({ data }) => this.mails = data)
     },
 
     handleSendMail() {
-      axios.post(`/nova-mail/send/${this.selectedTemplate.id || ''}`, {
+      Nova.request().post(`/nova-mail/send/${this.selectedTemplate.id || ''}`, {
         model: this.panel.fields[0].model,
         resourceId: this.resourceId,
         content: this.templateOverride,
         from: this.from,
+        to: this.to,
         subject: this.subject || this.selectedTemplate.subject,
       }).then(({ data }) => {
         this.getMails(this.mailsUri)
