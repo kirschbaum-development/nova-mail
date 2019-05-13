@@ -30,6 +30,6 @@ class CreateNovaSentMailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mails');
+        Schema::dropIfExists('nova_sent_mails');
     }
 }
