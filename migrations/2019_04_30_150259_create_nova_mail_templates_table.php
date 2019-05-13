@@ -29,6 +29,6 @@ class CreateNovaMailTemplatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mail_templates');
+        Schema::dropIfExists('nova_mail_templates');
     }
 }

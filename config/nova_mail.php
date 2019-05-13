@@ -60,4 +60,18 @@ return [
     */
 
     'keep_compiled_file' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Show Resources
+    |--------------------------------------------------------------------------
+    |
+    | This deterimines if the provided Nova resources
+    | are displayed in the Nova navigation menu.
+    |
+    */
+    'show_resources' => [
+        'nova_sent_mail' => true,
+        'nova_mail_template' => true,
+    ],
 ];
