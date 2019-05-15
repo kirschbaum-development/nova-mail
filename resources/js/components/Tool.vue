@@ -1,6 +1,8 @@
 <template>
     <div>
-        <h4 class="text-90 font-normal text-2xl mb-3">Mail</h4>
+        <div class="flex items-center mb-3">
+            <h4 class="text-90 font-normal text-2xl flex-no-shrink">Mail</h4>
+        </div>
 
         <div class="card mb-6 overflow-hidden">
             <div class="flex border-b border-40 remove-bottom-border px-8">
@@ -65,7 +67,7 @@
                 </div>
             </div>
 
-            <div class="flex justify-between px-8 pb-4 border-b border-40">
+            <div class="flex justify-between px-8 pb-6">
                 <button
                         class="btn btn-default btn-primary inline-flex items-center relative mt-4"
                         type="submit"
@@ -74,59 +76,64 @@
                 </button>
             </div>
 
-            <div class="py-6 px-6 flex items-center border-b border-50">
-                <h3 class="text-90 font-bold text-lg">Mail History</h3>
-            </div>
+            <template v-if="hasMail">
+                <div class="p-6 flex items-center border-t border-b border-50">
+                    <h3 class="text-90 font-bold text-lg">Mail History</h3>
+                </div>
 
-            <div class="overflow-hidden overflow-x-auto relative" style="">
-                <table cellpadding="0" cellspacing="0" data-testid="resource-table" class="table w-full">
-                    <thead>
-                    <tr>
-                        <th class="text-left">
-                            From
-                        </th>
+                <div class="overflow-hidden overflow-x-auto relative">
+                    <table class="table w-full" cellpadding="0" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th class="text-left">
+                                    From
+                                </th>
 
-                        <th class="text-left">
-                            Subject
-                        </th>
+                                <th class="text-left">
+                                    Subject
+                                </th>
 
-                        <th class="text-left">
-                            Content
-                        </th>
+                                <th class="text-left">
+                                    Content
+                                </th>
 
-                        <th class="text-left">
-                            Sent At
-                        </th>
+                                <th class="text-left">
+                                    Sent At
+                                </th>
 
-                        <th></th>
-                    </tr>
-                    </thead>
+                                <th></th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        <sent-mail :initial-mail="mail" v-for="(mail, index) in mails.resources" :key="index"></sent-mail>
-                    </tbody>
-                </table>
-            </div>
+                        <tbody>
+                            <sent-mail :initial-mail="mail"
+                                v-for="(mail, index) in mails.resources"
+                                :key="index">
+                            </sent-mail>
+                        </tbody>
+                    </table>
+                </div>
 
-            <div class="bg-20 rounded-b" v-if="hasPagination">
-                <nav class="flex justify-between items-center">
-                    <button
-                            class="btn btn-link py-3 px-4"
-                            :class="paginationClass(hasNextLink)"
-                            :disabled="! hasNextLink"
-                            @click="getMails(mails.next_page_url)"
-                    >Older
-                    </button>
+                <div class="bg-20 rounded-b" v-if="hasPagination">
+                    <nav class="flex justify-between items-center">
+                        <button
+                                class="btn btn-link py-3 px-4"
+                                :class="paginationClass(hasNextLink)"
+                                :disabled="! hasNextLink"
+                                @click="getMails(mails.next_page_url)"
+                        >Older
+                        </button>
 
-                    <button
-                            class="btn btn-link py-3 px-4"
-                            :class="paginationClass(hasPrevLink)"
-                            :disabled="! hasPrevLink"
-                            @click="getMails(mails.prev_page_url)"
-                    >Newer
-                    </button>
-                </nav>
-            </div>
+                        <button
+                                class="btn btn-link py-3 px-4"
+                                :class="paginationClass(hasPrevLink)"
+                                :disabled="! hasPrevLink"
+                                @click="getMails(mails.prev_page_url)"
+                        >Newer
+                        </button>
+                    </nav>
+                </div>
+            </template>
         </div>
     </div>
 </template>
@@ -170,8 +177,8 @@
                 return `${this.baseMailUri}?page=1`
             },
 
-            hasMails() {
-                return Boolean(this.mails.length)
+            hasMail() {
+                return Boolean(this.mails.resources.length)
             },
 
             hasNextLink() {

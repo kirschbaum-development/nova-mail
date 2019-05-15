@@ -376,6 +376,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -414,8 +421,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         mailsUri: function mailsUri() {
             return this.baseMailUri + '?page=1';
         },
-        hasMails: function hasMails() {
-            return Boolean(this.mails.length);
+        hasMail: function hasMail() {
+            return Boolean(this.mails.resources.length);
         },
         hasNextLink: function hasNextLink() {
             return Boolean(this.mails.next_page_url);
@@ -722,179 +729,178 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("h4", { staticClass: "text-90 font-normal text-2xl mb-3" }, [
-      _vm._v("Mail")
-    ]),
+    _vm._m(0),
     _vm._v(" "),
-    _c("div", { staticClass: "card mb-6 overflow-hidden" }, [
-      _c(
-        "div",
-        { staticClass: "flex border-b border-40 remove-bottom-border px-8" },
-        [
-          _c("div", { staticClass: "w-full pt-6 pb-2" }, [
-            _c("h3", { staticClass: "text-90 font-bold text-lg mb-4" }, [
-              _vm._v("Send Mail")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.from,
-                  expression: "from"
-                }
-              ],
-              staticClass:
-                "w-full form-control form-input form-input-bordered mb-2",
-              attrs: {
-                name: "from",
-                id: "from",
-                dusk: "from",
-                type: "text",
-                placeholder: "[from] " + _vm.panel.fields[0].from
-              },
-              domProps: { value: _vm.from },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.from = $event.target.value
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("input", {
-              staticClass:
-                "w-full form-control form-input form-input-bordered mb-2",
-              attrs: {
-                name: "to",
-                id: "to",
-                dusk: "to",
-                type: "text",
-                readonly: "true"
-              },
-              domProps: { value: _vm.to }
-            }),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.subject,
-                  expression: "subject"
-                }
-              ],
-              staticClass:
-                "w-full form-control form-input form-input-bordered mb-2",
-              attrs: {
-                name: "subject",
-                id: "subject",
-                dusk: "subject",
-                type: "text",
-                placeholder:
-                  "[subject] " +
-                  (_vm.selectedTemplate.subject || _vm.panel.fields[0].subject)
-              },
-              domProps: { value: _vm.subject },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.subject = $event.target.value
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "select",
-              {
+    _c(
+      "div",
+      { staticClass: "card mb-6 overflow-hidden" },
+      [
+        _c(
+          "div",
+          { staticClass: "flex border-b border-40 remove-bottom-border px-8" },
+          [
+            _c("div", { staticClass: "w-full pt-6 pb-2" }, [
+              _c("h3", { staticClass: "text-90 font-bold text-lg mb-4" }, [
+                _vm._v("Send Mail")
+              ]),
+              _vm._v(" "),
+              _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.selectedTemplate,
-                    expression: "selectedTemplate"
+                    value: _vm.from,
+                    expression: "from"
                   }
                 ],
-                staticClass: "form-control form-select mb-2",
+                staticClass:
+                  "w-full form-control form-input form-input-bordered mb-2",
                 attrs: {
-                  name: "mail_template_select",
-                  id: "mail-template-select",
-                  dusk: "mail-template-select"
+                  name: "from",
+                  id: "from",
+                  dusk: "from",
+                  type: "text",
+                  placeholder: "[from] " + _vm.panel.fields[0].from
                 },
+                domProps: { value: _vm.from },
                 on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.selectedTemplate = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.from = $event.target.value
                   }
                 }
-              },
-              [
-                _c("option", { attrs: { value: "", disabled: "disabled" } }, [
-                  _vm._v("Select Mail Template")
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.mailTemplates, function(template, index) {
-                  return _c(
-                    "option",
-                    { key: index, domProps: { value: template } },
-                    [_vm._v(_vm._s(template.name) + "\n                    ")]
-                  )
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c("textarea", {
-              directives: [
+              }),
+              _vm._v(" "),
+              _c("input", {
+                staticClass:
+                  "w-full form-control form-input form-input-bordered mb-2",
+                attrs: {
+                  name: "to",
+                  id: "to",
+                  dusk: "to",
+                  type: "text",
+                  readonly: "true"
+                },
+                domProps: { value: _vm.to }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.subject,
+                    expression: "subject"
+                  }
+                ],
+                staticClass:
+                  "w-full form-control form-input form-input-bordered mb-2",
+                attrs: {
+                  name: "subject",
+                  id: "subject",
+                  dusk: "subject",
+                  type: "text",
+                  placeholder:
+                    "[subject] " +
+                    (_vm.selectedTemplate.subject ||
+                      _vm.panel.fields[0].subject)
+                },
+                domProps: { value: _vm.subject },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.subject = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "select",
                 {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.templateOverride,
-                  expression: "templateOverride"
-                }
-              ],
-              staticClass:
-                "w-full form-control form-input form-input-bordered py-3 h-auto",
-              attrs: {
-                name: "template_override",
-                id: "template-override",
-                dusk: "template-override",
-                rows: "10",
-                placeholder:
-                  "Adjust the mail template here or craft an email from scratch! You can use normal blade syntax and include attributes from this resources model..."
-              },
-              domProps: { value: _vm.templateOverride },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selectedTemplate,
+                      expression: "selectedTemplate"
+                    }
+                  ],
+                  staticClass: "form-control form-select mb-2",
+                  attrs: {
+                    name: "mail_template_select",
+                    id: "mail-template-select",
+                    dusk: "mail-template-select"
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.selectedTemplate = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
                   }
-                  _vm.templateOverride = $event.target.value
+                },
+                [
+                  _c("option", { attrs: { value: "", disabled: "disabled" } }, [
+                    _vm._v("Select Mail Template")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.mailTemplates, function(template, index) {
+                    return _c(
+                      "option",
+                      { key: index, domProps: { value: template } },
+                      [_vm._v(_vm._s(template.name) + "\n                    ")]
+                    )
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.templateOverride,
+                    expression: "templateOverride"
+                  }
+                ],
+                staticClass:
+                  "w-full form-control form-input form-input-bordered py-3 h-auto",
+                attrs: {
+                  name: "template_override",
+                  id: "template-override",
+                  dusk: "template-override",
+                  rows: "10",
+                  placeholder:
+                    "Adjust the mail template here or craft an email from scratch! You can use normal blade syntax and include attributes from this resources model..."
+                },
+                domProps: { value: _vm.templateOverride },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.templateOverride = $event.target.value
+                  }
                 }
-              }
-            })
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "flex justify-between px-8 pb-4 border-b border-40" },
-        [
+              })
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex justify-between px-8 pb-6" }, [
           _c(
             "button",
             {
@@ -905,75 +911,84 @@ var render = function() {
             },
             [_vm._v("Send Mail\n            ")]
           )
-        ]
-      ),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "overflow-hidden overflow-x-auto relative" }, [
-        _c(
-          "table",
-          {
-            staticClass: "table w-full",
-            attrs: {
-              cellpadding: "0",
-              cellspacing: "0",
-              "data-testid": "resource-table"
-            }
-          },
-          [
-            _vm._m(1),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.mails.resources, function(mail, index) {
-                return _c("sent-mail", {
-                  key: index,
-                  attrs: { "initial-mail": mail }
-                })
-              }),
-              1
-            )
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _vm.hasPagination
-        ? _c("div", { staticClass: "bg-20 rounded-b" }, [
-            _c("nav", { staticClass: "flex justify-between items-center" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-link py-3 px-4",
-                  class: _vm.paginationClass(_vm.hasNextLink),
-                  attrs: { disabled: !_vm.hasNextLink },
-                  on: {
-                    click: function($event) {
-                      return _vm.getMails(_vm.mails.next_page_url)
-                    }
-                  }
-                },
-                [_vm._v("Older\n                ")]
-              ),
+        ]),
+        _vm._v(" "),
+        _vm.hasMail
+          ? [
+              _vm._m(1),
               _vm._v(" "),
               _c(
-                "button",
-                {
-                  staticClass: "btn btn-link py-3 px-4",
-                  class: _vm.paginationClass(_vm.hasPrevLink),
-                  attrs: { disabled: !_vm.hasPrevLink },
-                  on: {
-                    click: function($event) {
-                      return _vm.getMails(_vm.mails.prev_page_url)
-                    }
-                  }
-                },
-                [_vm._v("Newer\n                ")]
-              )
-            ])
-          ])
-        : _vm._e()
-    ])
+                "div",
+                { staticClass: "overflow-hidden overflow-x-auto relative" },
+                [
+                  _c(
+                    "table",
+                    {
+                      staticClass: "table w-full",
+                      attrs: { cellpadding: "0", cellspacing: "0" }
+                    },
+                    [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.mails.resources, function(mail, index) {
+                          return _c("sent-mail", {
+                            key: index,
+                            attrs: { "initial-mail": mail }
+                          })
+                        }),
+                        1
+                      )
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _vm.hasPagination
+                ? _c("div", { staticClass: "bg-20 rounded-b" }, [
+                    _c(
+                      "nav",
+                      { staticClass: "flex justify-between items-center" },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-link py-3 px-4",
+                            class: _vm.paginationClass(_vm.hasNextLink),
+                            attrs: { disabled: !_vm.hasNextLink },
+                            on: {
+                              click: function($event) {
+                                return _vm.getMails(_vm.mails.next_page_url)
+                              }
+                            }
+                          },
+                          [_vm._v("Older\n                    ")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-link py-3 px-4",
+                            class: _vm.paginationClass(_vm.hasPrevLink),
+                            attrs: { disabled: !_vm.hasPrevLink },
+                            on: {
+                              click: function($event) {
+                                return _vm.getMails(_vm.mails.prev_page_url)
+                              }
+                            }
+                          },
+                          [_vm._v("Newer\n                    ")]
+                        )
+                      ]
+                    )
+                  ])
+                : _vm._e()
+            ]
+          : _vm._e()
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = [
@@ -981,9 +996,19 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "flex items-center mb-3" }, [
+      _c("h4", { staticClass: "text-90 font-normal text-2xl flex-no-shrink" }, [
+        _vm._v("Mail")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c(
       "div",
-      { staticClass: "py-6 px-6 flex items-center border-b border-50" },
+      { staticClass: "p-6 flex items-center border-t border-b border-50" },
       [
         _c("h3", { staticClass: "text-90 font-bold text-lg" }, [
           _vm._v("Mail History")
@@ -998,19 +1023,27 @@ var staticRenderFns = [
     return _c("thead", [
       _c("tr", [
         _c("th", { staticClass: "text-left" }, [
-          _vm._v("\n                        From\n                    ")
+          _vm._v(
+            "\n                                From\n                            "
+          )
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "text-left" }, [
-          _vm._v("\n                        Subject\n                    ")
+          _vm._v(
+            "\n                                Subject\n                            "
+          )
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "text-left" }, [
-          _vm._v("\n                        Content\n                    ")
+          _vm._v(
+            "\n                                Content\n                            "
+          )
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "text-left" }, [
-          _vm._v("\n                        Sent At\n                    ")
+          _vm._v(
+            "\n                                Sent At\n                            "
+          )
         ]),
         _vm._v(" "),
         _c("th")
