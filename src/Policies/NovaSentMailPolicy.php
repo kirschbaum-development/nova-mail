@@ -2,7 +2,7 @@
 
 namespace KirschbaumDevelopment\NovaMail\Policies;
 
-use App\User;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use KirschbaumDevelopment\NovaMail\Models\NovaSentMail;
 
@@ -13,10 +13,10 @@ class NovaSentMailPolicy
     /**
      * Determine whether the user can view the mail.
      *
-     * @param  \App\User  $user
+     * @param  \Illuminate\Foundation\Auth\User  $user
      * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
      *
-     * @return mixed
+     * @return bool
      */
     public function view(User $user, NovaSentMail $mail)
     {
@@ -26,9 +26,9 @@ class NovaSentMailPolicy
     /**
      * Determine whether the user can create mails.
      *
-     * @param  \App\User  $user
+     * @param  \Illuminate\Foundation\Auth\User  $user
      *
-     * @return mixed
+     * @return bool
      */
     public function create(User $user)
     {
@@ -38,10 +38,10 @@ class NovaSentMailPolicy
     /**
      * Determine whether the user can update the mail.
      *
-     * @param  \App\User  $user
+     * @param  \Illuminate\Foundation\Auth\User  $user
      * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
      *
-     * @return mixed
+     * @return bool
      */
     public function update(User $user, NovaSentMail $mail)
     {
@@ -51,10 +51,10 @@ class NovaSentMailPolicy
     /**
      * Determine whether the user can delete the mail.
      *
-     * @param  \App\User  $user
+     * @param  \Illuminate\Foundation\Auth\User  $user
      * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
      *
-     * @return mixed
+     * @return bool
      */
     public function delete(User $user, NovaSentMail $mail)
     {
@@ -64,10 +64,10 @@ class NovaSentMailPolicy
     /**
      * Determine whether the user can restore the mail.
      *
-     * @param  \App\User  $user
+     * @param  \Illuminate\Foundation\Auth\User  $user
      * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
      *
-     * @return mixed
+     * @return bool
      */
     public function restore(User $user, NovaSentMail $mail)
     {
@@ -77,10 +77,10 @@ class NovaSentMailPolicy
     /**
      * Determine whether the user can permanently delete the mail.
      *
-     * @param  \App\User  $user
+     * @param  \Illuminate\Foundation\Auth\User  $user
      * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
      *
-     * @return mixed
+     * @return bool
      */
     public function forceDelete(User $user, NovaSentMail $mail)
     {
