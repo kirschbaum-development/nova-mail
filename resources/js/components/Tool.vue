@@ -69,9 +69,14 @@
           class="btn btn-default btn-primary inline-flex items-center relative mt-4"
           type="submit"
           @click="handleSendMail"
+          :disabled="! canSend"
         >Send Mail</button>
       </div>
-      <div class="flex border-b border-40 remove-bottom-border px-8">
+
+      <div
+        class="flex border-b border-40 remove-bottom-border px-8"
+        v-if="mails.resources && mails.resources.length > 0"
+      >
         <div class="w-full py-6">
           <h3 class="text-90 font-bold text-lg mb-4">Mail History</h3>
 
@@ -157,6 +162,10 @@ export default {
 
     mailsQueryParams() {
       return `&orderBy=created_at&orderByDirection=desc&viaResource=${this.resourceName}&viaResourceId=${this.resourceId}&viaRelationship=mails&relationshipType=hasMany`
+    },
+
+    canSend() {
+      return this.templateOverride != '' && this.templateOverride.length > 0
     },
   },
 

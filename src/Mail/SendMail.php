@@ -38,7 +38,7 @@ class SendMail extends Mailable
     {
         $this->model = $model;
         $this->mailTemplate = $mailTemplate;
-        $this->content = nl2br($content);
+        $this->content = $content;
         $this->to($to);
         $this->from($from ?? config('nova_mail.default_from'));
         $this->subject($subject ?? config('nova_mail.default_subject'));
