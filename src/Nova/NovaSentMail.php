@@ -2,12 +2,14 @@
 
 namespace KirschbaumDevelopment\NovaMail\Nova;
 
+use App\Nova\User;
 use Laravel\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\BelongsTo;
 use KirschbaumDevelopment\NovaMail\Models\NovaSentMail as NovaSentMailModel;
 
 class NovaSentMail extends Resource
@@ -32,15 +34,9 @@ class NovaSentMail extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'subject',
+        'content',
     ];
-
-    /**
-     * The number of resources to show per page via relationships.
-     *
-     * @var int
-     */
-    public static $perPageViaRelationship = 3;
 
     /**
      * Get the fields displayed by the resource.
@@ -53,9 +49,14 @@ class NovaSentMail extends Resource
     {
         return [
             MorphTo::make('mailable'),
+            BelongsTo::make('Sender', 'sender', User::class),
             Text::make('subject'),
-            DateTime::make('Created At'),
-            Textarea::make('Content')->alwaysShow()->hideFromIndex(),
+            Textarea::make('content')
+                ->displayUsing(function ($content) {
+                    return trim(strip_tags($content));
+                })
+                ->alwaysShow(),
+            DateTime::make('Sent At', 'created_at'),
         ];
     }
 

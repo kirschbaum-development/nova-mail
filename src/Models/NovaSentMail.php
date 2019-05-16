@@ -27,6 +27,22 @@ class NovaSentMail extends Model
         'mailTemplate',
     ];
 
+
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($mail) {
+            $mail->sender_id = auth()->id();
+        });
+    }
+
     /**
      * Get the mail's mailable.
      *
@@ -45,6 +61,14 @@ class NovaSentMail extends Model
     public function mailTemplate()
     {
         return $this->belongsTo(NovaMailTemplate::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function sender()
+    {
+        return $this->belongsTo(config('auth.providers.users.model'));
     }
 
     /**
