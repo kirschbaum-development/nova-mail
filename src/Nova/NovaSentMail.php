@@ -48,7 +48,7 @@ class NovaSentMail extends Resource
     public function fields(Request $request)
     {
         return [
-            MorphTo::make('mailable'),
+            MorphTo::make('mailable')->hideFromIndex(),
             BelongsTo::make('Sender', 'sender', User::class),
             Text::make('subject'),
             Textarea::make('content')
