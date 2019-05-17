@@ -51,7 +51,7 @@ class NovaMail extends ResourceTool
     public function withSubject(string $subject)
     {
         return $this->withMeta([
-            'model' => $subject,
+            'subject' => $subject,
         ]);
     }
 
