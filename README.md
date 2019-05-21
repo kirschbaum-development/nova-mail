@@ -52,18 +52,18 @@ And choose the provider for this package: `KirschbaumDevelopment\NovaMail\NovaMa
 
 ## Usage
 
-There is a single component (`NovaMail`) and two resources (`MailTemplate` and `Mail`) that ship with this package.
+There is a single component (`Mailer`) and two resources (`NovaMailTemplate` and `NovaSentMail`) that ship with this package.
 
-### NovaMail component
+### Mailer component
 
-The `NovaMail` component is a resource tool that allows you to insert a mail form panel directly onto any Nova resource. This panel allows you to quickly send an email directly to a resource. Previously sent emails show up below the mail form.
+The `Mailer` component is a resource tool that allows you to insert a mail form panel directly onto any Nova resource. This panel allows you to quickly send an email directly to a resource.
 
-Simply add the `KirschbaumDevelopment\NovaMail\NovaMail` resource tool in your Nova resource:
+Simply add the `KirschbaumDevelopment\NovaMail\Mailer` resource tool in your Nova resource:
 
 ```php
 namespace App\Nova;
 
-use KirschbaumDevelopment\NovaMail\NovaMail;
+use KirschbaumDevelopment\NovaMail\Mailer;
 
 class User extends Resource
 {
@@ -74,7 +74,7 @@ class User extends Resource
         return [
             // ...
 
-            new NovaMail(),
+            new Mailer(),
 
             // ...
         ];
@@ -83,6 +83,26 @@ class User extends Resource
 ```
 
 Now you can send emails from the detail view of any resource you've attached the `NovaMail` to!
+
+### Mail Template Usage/Caveats
+
+The `NovaMailTemplate` resource allows you to create re-usable custom templates for sending email. It works by taking your specified template (or over-ridden template content) and building a temporary blade file (the Blade file can be saved permantely via a configuration option). This blade file is then used in the typical Laravel fashion to send the email.
+
+The final content provided when the user clicks the "Send Mail" button is parsed as markdown and makes no assumptions about newlines or any other formatting for that matter. For example, if you were to use the built in mail message component provided by Laravel for markdown emails you could create a template like the following:
+
+```
+@component('mail::message')
+Hello {{ $name }},
+
+Visit this link when you have a moment:
+
+[https://github.com/kirschbaum-development/nova-mail](https://github.com/kirschbaum-development/nova-mail)
+
+Let me know if you have any questions.
+
+@include('path.to.footer')
+@endcomponent
+```
 
 ## Changelog
 
