@@ -14,9 +14,10 @@ class CreateNovaSentMailsTable extends Migration
     public function up()
     {
         Schema::create('nova_sent_mails', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('mail_template_id')->nullable();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('mail_template_id')->nullable();
             $table->morphs('mailable');
+            $table->unsignedBigInteger('sender_id');
             $table->string('subject');
             $table->longText('content')->nullable();
             $table->timestamps();

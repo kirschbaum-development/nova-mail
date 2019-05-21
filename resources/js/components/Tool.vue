@@ -1,31 +1,31 @@
 <template>
   <div>
-    <h4 class="text-90 font-normal text-2xl mb-3">Mail</h4>
+    <div class="flex items-center mb-3">
+      <h4 class="text-90 font-normal text-2xl flex-no-shrink">Mail</h4>
+    </div>
 
     <div class="card mb-6 overflow-hidden">
       <div class="flex border-b border-40 remove-bottom-border px-8">
         <div class="w-full pt-6 pb-2">
-          <h3 class="text-90 font-bold text-lg mb-4">Send Mail</h3>
+          <h3 class="text-90 font-bold text-lg mb-4">Send mail to {{ to }}</h3>
 
-          <input
-            name="from"
-            id="from"
-            dusk="from"
-            type="text"
-            v-model="from"
-            class="w-full form-control form-input form-input-bordered mb-2"
-            :placeholder="'[from] ' + panel.fields[0].from"
+          <select
+            name="mail_template_select"
+            id="mail-template-select"
+            dusk="mail-template-select"
+            v-model="selectedTemplate"
+            class="form-control form-select mb-4"
+            v-if="hasTemplates"
           >
+            <option value disabled="disabled">Select Mail Template&hellip;</option>
 
-          <input
-            name="to"
-            id="to"
-            dusk="to"
-            type="text"
-            readonly="true"
-            :value="to"
-            class="w-full form-control form-input form-input-bordered mb-2"
-          >
+            <option
+              :value="template"
+              v-for="(template, index) in mailTemplates"
+              :key="index"
+              v-text="template.name"
+            ></option>
+          </select>
 
           <input
             name="subject"
@@ -33,24 +33,9 @@
             dusk="subject"
             type="text"
             v-model="subject"
-            :placeholder="'[subject] ' + (selectedTemplate.subject || panel.fields[0].subject)"
-            class="w-full form-control form-input form-input-bordered mb-2"
+            placeholder="Subject"
+            class="w-full form-control form-input form-input-bordered"
           >
-
-          <select
-            name="mail_template_select"
-            id="mail-template-select"
-            dusk="mail-template-select"
-            v-model="selectedTemplate"
-            class="form-control form-select mb-2"
-          >
-            <option value disabled="disabled">Select Mail Template</option>
-            <option
-              :value="template"
-              v-for="(template, index) in mailTemplates"
-              :key="index"
-            >{{ template.name }}</option>
-          </select>
 
           <textarea
             name="template_override"
@@ -58,13 +43,16 @@
             dusk="template-override"
             rows="10"
             v-model="templateOverride"
-            class="w-full form-control form-input form-input-bordered py-3 h-auto"
-            placeholder="Adjust the mail template here or craft an email from scratch! You can use normal blade syntax and include attributes from this resources model..."
+            class="w-full form-control form-input form-input-bordered py-3 h-auto mt-4"
           ></textarea>
         </div>
       </div>
 
-      <div class="flex justify-between px-8 pb-4 border-b border-40">
+      <div class="flex justify-between px-8 pb-6">
+        <div
+          class="help-text"
+        >Adjust the mail template or craft an email from scratch above! You can use normal blade syntax and include attributes from this resources model...</div>
+
         <button
           class="btn btn-default btn-primary inline-flex items-center relative mt-4"
           type="submit"
@@ -72,152 +60,86 @@
           :disabled="! canSend"
         >Send Mail</button>
       </div>
-
-      <div
-        class="flex border-b border-40 remove-bottom-border px-8"
-        v-if="mails.resources && mails.resources.length > 0"
-      >
-        <div class="w-full py-6">
-          <h3 class="text-90 font-bold text-lg mb-4">Mail History</h3>
-
-          <sent-mail :initial-mail="mail" v-for="(mail, index) in mails.resources" :key="index"></sent-mail>
-        </div>
-      </div>
-
-      <div class="bg-20 rounded-b" v-if="hasPagination">
-        <nav class="flex justify-between items-center">
-          <button
-            class="btn btn-link py-3 px-4"
-            :class="paginationClass(hasNextLink)"
-            :disabled="! hasNextLink"
-            @click="getMails(mails.next_page_url)"
-          >Older</button>
-
-          <button
-            class="btn btn-link py-3 px-4"
-            :class="paginationClass(hasPrevLink)"
-            :disabled="! hasPrevLink"
-            @click="getMails(mails.prev_page_url)"
-          >Newer</button>
-        </nav>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import SentMail from './SentMail'
-
 export default {
-  props: ['resourceName', 'resourceId', 'panel'],
-
-  components: {
-    SentMail
-  },
+  props: ['resourceId', 'panel'],
 
   data() {
     return {
       mailTemplates: [],
       selectedTemplate: '',
       templateOverride: '',
-      from: '',
       to: '',
       subject: '',
-      baseMailUri: '/nova-api/nova-sent-mails',
-      mails: {
-        next_page_url: '',
-        prev_page_url: '',
-        resources: {},
-      },
       model: {},
     }
   },
 
   mounted() {
-    this.getMailTemplates()
-    this.getMailable()
-    this.getMails(this.mailsUri)
+    this.getMailTemplates();
+    this.getMailable();
   },
 
   computed: {
-    mailsUri() {
-      return `${this.baseMailUri}?page=1`
-    },
-
-    hasMails() {
-      return Boolean(this.mails.length)
-    },
-
-    hasNextLink() {
-      return Boolean(this.mails.next_page_url)
-    },
-
-    hasPrevLink() {
-      return Boolean(this.mails.prev_page_url)
-    },
-
-    hasPagination() {
-      return this.hasNextLink || this.hasPrevLink
-    },
-
-    mailsQueryParams() {
-      return `&orderBy=created_at&orderByDirection=desc&viaResource=${this.resourceName}&viaResourceId=${this.resourceId}&viaRelationship=mails&relationshipType=hasMany`
+    hasTemplates() {
+      return Boolean(this.mailTemplates.length);
     },
 
     canSend() {
-      return this.templateOverride != '' && this.templateOverride.length > 0
+      return this.subject != '' && this.subject.length > 0 && this.templateOverride != '' && this.templateOverride.length > 0
     },
   },
 
   methods: {
     getMailTemplates() {
-      Nova.request().get('/nova-mail/templates').then(({ data }) => this.mailTemplates = data.templates || []);
-    },
-
-    paginationClass(isActive) {
-      return isActive ? 'text-primary dim' : 'test-80 opacity-50'
+      Nova.request()
+        .get('/nova-mail/templates')
+        .then(({ data }) => this.mailTemplates = data.templates || []);
     },
 
     getMailable() {
-      Nova.request().post('/nova-mail/mailable', {
-        mailableClass: this.panel.fields[0].model,
-        mailableId: this.resourceId,
-      }).then(({ data }) => {
-        this.model = data.model
-        this.to = data.to
-      })
-    },
-
-    getMails(uri) {
-      Nova.request().get(`${uri}${this.mailsQueryParams}`).then(({ data }) => this.mails = data)
+      Nova.request()
+        .post('/nova-mail/mailable', {
+          mailableClass: this.panel.fields[0].model,
+          mailableId: this.resourceId,
+        })
+        .then(({ data }) => {
+          this.model = data.model;
+          this.to = data.to;
+        });
     },
 
     handleSendMail() {
-      Nova.request().post(`/nova-mail/send/${this.selectedTemplate.id || ''}`, {
-        model: this.panel.fields[0].model,
-        resourceId: this.resourceId,
-        content: this.templateOverride,
-        from: this.from,
-        to: this.to,
-        subject: this.subject || this.selectedTemplate.subject,
-      }).then(({ data }) => {
-        this.getMails(this.mailsUri)
-        this.resetForm()
-        this.$toasted.show(`The mail has been sent.`, { type: 'success' });
-      }).catch(response => this.$toasted.show(response, { type: 'error' }))
+      Nova.request()
+        .post(`/nova-mail/send/${this.selectedTemplate.id || ''}`, {
+          model: this.panel.fields[0].model,
+          resourceId: this.resourceId,
+          content: this.templateOverride,
+          to: this.to,
+          subject: this.subject || this.selectedTemplate.subject,
+        })
+        .then(({ data }) => {
+          this.resetForm();
+          this.$toasted.show(`The mail has been sent.`, { type: 'success' });
+        })
+        .catch(response => this.$toasted.show(response, { type: 'error' }));
     },
 
     resetForm() {
-      this.from = ''
-      this.subject = ''
-      this.templateOverride = ''
-      this.selectedTemplate = ''
+      this.subject = '';
+      this.templateOverride = '';
+      this.selectedTemplate = '';
     }
   },
 
   watch: {
     selectedTemplate(newValue, oldValue) {
-      this.templateOverride = this.selectedTemplate.content
+      this.templateOverride = this.selectedTemplate.content;
+      this.subject = this.selectedTemplate.subject;
     },
   },
 }
