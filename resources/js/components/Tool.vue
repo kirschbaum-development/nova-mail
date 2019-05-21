@@ -44,16 +44,20 @@
             rows="10"
             v-model="templateOverride"
             class="w-full form-control form-input form-input-bordered py-3 h-auto mt-4"
-            placeholder="Adjust the mail template here or craft an email from scratch! You can use normal blade syntax and include attributes from this resources model..."
           ></textarea>
         </div>
       </div>
 
       <div class="flex justify-between px-8 pb-6">
+        <div
+          class="help-text"
+        >Adjust the mail template or craft an email from scratch above! You can use normal blade syntax and include attributes from this resources model...</div>
+
         <button
           class="btn btn-default btn-primary inline-flex items-center relative mt-4"
           type="submit"
           @click="handleSendMail"
+          :disabled="! canSend"
         >Send Mail</button>
       </div>
     </div>
@@ -83,7 +87,11 @@ export default {
   computed: {
     hasTemplates() {
       return Boolean(this.mailTemplates.length);
-    }
+    },
+
+    canSend() {
+      return this.subject != '' && this.subject.length > 0 && this.templateOverride != '' && this.templateOverride.length > 0
+    },
   },
 
   methods: {

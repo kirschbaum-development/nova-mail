@@ -20,7 +20,7 @@ Next, we need to run migrations. Auto-discovery of this package's service provid
 php artisan migrate
 ```
 
-And lastly, any model that you want to send mail needs the `Mailable` trait added to it. The model should have a compliant email column. You also need to implement the abstract method provided by the `Mailable` trait, like show below. You should custom this if your email field is different:
+And lastly, any model that you want to send mail needs the `Mailable` trait added to it. The model should have a compliant email column. You also need to implement the abstract method provided by the `Mailable` trait, like shown below. You should customize this if your email field is different:
 
 ```php
 use KirschbaumDevelopment\NovaMail\Mailable;
@@ -56,14 +56,14 @@ There is a single component (`NovaMail`) and two resources (`MailTemplate` and `
 
 ### NovaMail component
 
-The `NovaMail` component is a resource tool that allows you to insert a mail form panel directly onto any Nova resource. This panel allows you to quickly send an email directly to a resource. Previously sent emails show up below the mail form with live updating.
+The `NovaMail` component is a resource tool that allows you to insert a mail form panel directly onto any Nova resource. This panel allows you to quickly send an email directly to a resource. Previously sent emails show up below the mail form.
 
 Simply add the `KirschbaumDevelopment\NovaMail\NovaMail` resource tool in your Nova resource:
 
 ```php
 namespace App\Nova;
 
-use KirschbaumDevelopment\NovaComments\Commenter;
+use KirschbaumDevelopment\NovaMail\NovaMail;
 
 class User extends Resource
 {
@@ -74,7 +74,7 @@ class User extends Resource
         return [
             // ...
 
-            new NovaMail($this),
+            new NovaMail(),
 
             // ...
         ];
@@ -82,25 +82,7 @@ class User extends Resource
 }
 ```
 
-Now you can send emails from the detail view of any resource you've attached the `NovaMail` to!!
-
-### Pagination caveat
-
-Due to an limitation in how Nova paginates results, there is currently no way to set the `perPage` value for the number of comments that will display at a time from a configuration value. Nova's default value is 5 per page. If you would like to set this to a different value, such as 25, we recommend you extend the extend the `Mail` resource and set this value with the follwing code:
-
-```php
-use KirschbaumDevelopment\NovaMail\Nova\Mail as NovaMailResource;
-
-class Mail extends NovaMailResource
-{
-    /**
-     * The number of resources to show per page via relationships.
-     *
-     * @var int
-     */
-    public static $perPageViaRelationship = 25;
-}
-```
+Now you can send emails from the detail view of any resource you've attached the `NovaMail` to!
 
 ## Changelog
 
