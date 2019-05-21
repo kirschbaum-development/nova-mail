@@ -14,6 +14,7 @@
             id="mail-template-select"
             dusk="mail-template-select"
             v-model="selectedTemplate"
+            @change="handleTemplateSelection"
             class="form-control form-select mb-4"
             v-if="hasTemplates"
           >
@@ -90,7 +91,7 @@ export default {
     },
 
     canSend() {
-      return this.subject != '' && this.subject.length > 0 && this.templateOverride != '' && this.templateOverride.length > 0
+      return Boolean(this.subject !== '' && this.templateOverride !== '');
     },
   },
 
@@ -113,6 +114,11 @@ export default {
         });
     },
 
+    handleTemplateSelection() {
+      this.subject = this.selectedTemplate.subject;
+      this.templateOverride = this.selectedTemplate.content;
+    },
+
     handleSendMail() {
       Nova.request()
         .post(`/nova-mail/send/${this.selectedTemplate.id || ''}`, {
@@ -120,27 +126,20 @@ export default {
           resourceId: this.resourceId,
           content: this.templateOverride,
           to: this.to,
-          subject: this.subject || this.selectedTemplate.subject,
+          subject: this.subject,
         })
         .then(({ data }) => {
-          this.resetForm();
           this.$toasted.show(`The mail has been sent.`, { type: 'success' });
+          this.resetForm();
         })
         .catch(response => this.$toasted.show(response, { type: 'error' }));
     },
 
     resetForm() {
+      this.selectedTemplate = '';
       this.subject = '';
       this.templateOverride = '';
-      this.selectedTemplate = '';
     }
-  },
-
-  watch: {
-    selectedTemplate(newValue, oldValue) {
-      this.templateOverride = this.selectedTemplate.content;
-      this.subject = this.selectedTemplate.subject;
-    },
   },
 }
 </script>

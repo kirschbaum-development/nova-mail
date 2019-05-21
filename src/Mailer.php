@@ -4,7 +4,7 @@ namespace KirschbaumDevelopment\NovaMail;
 
 use Laravel\Nova\ResourceTool;
 
-class NovaMail extends ResourceTool
+class Mailer extends ResourceTool
 {
     public function __construct()
     {
