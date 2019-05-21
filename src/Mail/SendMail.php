@@ -34,15 +34,14 @@ class SendMail extends Mailable
      *
      * @return void
      */
-    public function __construct(Model $model, NovaMailTemplate $mailTemplate, string $content, string $to, string $subject = null)
+    public function __construct(Model $model, NovaMailTemplate $mailTemplate, string $content, string $to, string $subject)
     {
         $this->model = $model;
         $this->mailTemplate = $mailTemplate;
         $this->content = $content;
         $this->to($to);
         $this->from(config('mail.from.address'), config('mail.from.name'));
-        $this->subject($subject ?? config('nova_mail.default_subject'));
-
+        $this->subject($subject);
         $this->timestamp = now()->format('Y_m_d_His');
     }
 

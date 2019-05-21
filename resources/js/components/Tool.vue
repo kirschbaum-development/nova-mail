@@ -43,7 +43,8 @@
             id="template-override"
             dusk="template-override"
             rows="10"
-            v-model="templateOverride"
+            v-model="body"
+            placeholder="Body"
             class="w-full form-control form-input form-input-bordered py-3 h-auto mt-4"
           ></textarea>
         </div>
@@ -73,7 +74,7 @@ export default {
     return {
       mailTemplates: [],
       selectedTemplate: '',
-      templateOverride: '',
+      body: '',
       to: '',
       subject: '',
       model: {},
@@ -91,7 +92,7 @@ export default {
     },
 
     canSend() {
-      return Boolean(this.subject !== '' && this.templateOverride !== '');
+      return Boolean(this.subject !== '' && this.body !== '');
     },
   },
 
@@ -116,7 +117,7 @@ export default {
 
     handleTemplateSelection() {
       this.subject = this.selectedTemplate.subject;
-      this.templateOverride = this.selectedTemplate.content;
+      this.body = this.selectedTemplate.content;
     },
 
     handleSendMail() {
@@ -124,7 +125,7 @@ export default {
         .post(`/nova-mail/send/${this.selectedTemplate.id || ''}`, {
           model: this.panel.fields[0].model,
           resourceId: this.resourceId,
-          content: this.templateOverride,
+          content: this.body,
           to: this.to,
           subject: this.subject,
         })
@@ -138,7 +139,7 @@ export default {
     resetForm() {
       this.selectedTemplate = '';
       this.subject = '';
-      this.templateOverride = '';
+      this.body = '';
     }
   },
 }
