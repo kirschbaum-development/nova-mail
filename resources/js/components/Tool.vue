@@ -92,7 +92,7 @@ export default {
     },
 
     canSend() {
-      return Boolean(this.subject !== '' && this.body !== '');
+      return Boolean(_.trim(this.subject) !== '' && _.trim(this.body) !== '');
     },
   },
 
