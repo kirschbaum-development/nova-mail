@@ -14,6 +14,7 @@
             id="mail-template-select"
             dusk="mail-template-select"
             v-model="selectedTemplate"
+            @change="handleTemplateSelection"
             class="form-control form-select mb-4"
             v-if="hasTemplates"
           >
@@ -42,7 +43,8 @@
             id="template-override"
             dusk="template-override"
             rows="10"
-            v-model="templateOverride"
+            v-model="body"
+            placeholder="Body"
             class="w-full form-control form-input form-input-bordered py-3 h-auto mt-4"
           ></textarea>
         </div>
@@ -72,7 +74,7 @@ export default {
     return {
       mailTemplates: [],
       selectedTemplate: '',
-      templateOverride: '',
+      body: '',
       to: '',
       subject: '',
       model: {},
@@ -90,7 +92,7 @@ export default {
     },
 
     canSend() {
-      return this.subject != '' && this.subject.length > 0 && this.templateOverride != '' && this.templateOverride.length > 0
+      return Boolean(_.trim(this.subject) !== '' && _.trim(this.body) !== '');
     },
   },
 
@@ -113,34 +115,32 @@ export default {
         });
     },
 
+    handleTemplateSelection() {
+      this.subject = this.selectedTemplate.subject;
+      this.body = this.selectedTemplate.content;
+    },
+
     handleSendMail() {
       Nova.request()
         .post(`/nova-mail/send/${this.selectedTemplate.id || ''}`, {
           model: this.panel.fields[0].model,
           resourceId: this.resourceId,
-          content: this.templateOverride,
+          content: this.body,
           to: this.to,
-          subject: this.subject || this.selectedTemplate.subject,
+          subject: this.subject,
         })
         .then(({ data }) => {
-          this.resetForm();
           this.$toasted.show(`The mail has been sent.`, { type: 'success' });
+          this.resetForm();
         })
         .catch(response => this.$toasted.show(response, { type: 'error' }));
     },
 
     resetForm() {
-      this.subject = '';
-      this.templateOverride = '';
       this.selectedTemplate = '';
+      this.subject = '';
+      this.body = '';
     }
-  },
-
-  watch: {
-    selectedTemplate(newValue, oldValue) {
-      this.templateOverride = this.selectedTemplate.content;
-      this.subject = this.selectedTemplate.subject;
-    },
   },
 }
 </script>

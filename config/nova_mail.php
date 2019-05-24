@@ -27,30 +27,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Subject
-    |--------------------------------------------------------------------------
-    |
-    | This is the global default subject if the mail template does not provide
-    | one, or one is not provided when a mail is sent from a resource.
-    |
-    */
-
-    'default_subject' => 'Hey there!',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Default From
-    |--------------------------------------------------------------------------
-    |
-    | This is the global default from if the mail template does not provide
-    | one, or one is not provided when a mail is sent from a resource.
-    |
-    */
-
-    'default_from' => 'admin@admin.com',
-
-    /*
-    |--------------------------------------------------------------------------
     | Keep Compiled File
     |--------------------------------------------------------------------------
     |
@@ -59,7 +35,7 @@ return [
     |
     */
 
-    'keep_compiled_file' => true,
+    'keep_compiled_file' => false,
 
     /*
     |--------------------------------------------------------------------------
