@@ -106,6 +106,33 @@ Let me know if you have any questions.
 @endcomponent
 ```
 
+### Sent Mail Usage
+
+The `NovaSentMail` resource can be added as a relationship field to any `Resource` that has the `Mailable` trait defined on it's corresponding model. This gives you direct access to the history of emails sent from that `Resource`:
+
+```php
+namespace App\Nova;
+
+use Laravel\Nova\Fields\HasMany;
+use KirschbaumDevelopment\NovaMail\Nova\NovaSentMail;
+
+class User extends Resource
+{
+    // ...
+
+    public function fields(Request $request)
+    {
+        return [
+            // ...
+
+            HasMany::make('Sent Mail', 'mails', NovaSentMail::class),
+
+            // ...
+        ];
+    }
+}
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
