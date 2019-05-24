@@ -6,12 +6,18 @@ use Laravel\Nova\ResourceTool;
 
 class Mailer extends ResourceTool
 {
-    public function __construct()
+    public function __construct($resource)
     {
         parent::__construct();
 
+        throw_if(
+            ! $resource || ! property_exists($resource, 'model'),
+            \Exception::class,
+            'This Mailer resource requires a valid Nova ResourceTool instance as it\'s first argument.'
+        );
+
         $this->withMeta([
-            'model' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)[1]['class']::$model,
+            'model' => $resource::$model,
         ]);
     }
 

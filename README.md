@@ -60,6 +60,8 @@ The `Mailer` component is a resource tool that allows you to insert a mail form 
 
 Simply add the `KirschbaumDevelopment\NovaMail\Mailer` resource tool in your Nova resource:
 
+**_NOTE:_** You must pass the `Resource` (i.e. `$this`) to the `Mailer` component like shown below.
+
 ```php
 namespace App\Nova;
 
@@ -74,7 +76,7 @@ class User extends Resource
         return [
             // ...
 
-            new Mailer(),
+            new Mailer($this),
 
             // ...
         ];
