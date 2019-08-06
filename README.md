@@ -1,10 +1,10 @@
-# A mail resource tool for Nova apps
+# An action based mail package for Nova apps
 
-This package contains an inline mail sending form for any resource to easily send email.
+This package contains a Nova action that provides a mail sending form for any resource to easily send email.
 
 ## Requirements
 
-This Nova resource tool requires Nova 2.0 or higher.
+This Nova package requires Nova 2.0 or higher.
 
 ## Installation
 
@@ -20,10 +20,10 @@ Next, we need to run migrations. Auto-discovery of this package's service provid
 php artisan migrate
 ```
 
-And lastly, any model that you want to send mail needs the `Mailable` trait added to it. The model should have a compliant email column. You also need to implement the abstract method provided by the `Mailable` trait, like shown below. You should customize this if your email field is different:
+And lastly, any model that you want to send mail needs the `Mailable` trait added to it. The model should have a compliant email column. You also need to implement the abstract method provided by the `Mailable` trait, like shown below. You should customize this if your email column name is different:
 
 ```php
-use KirschbaumDevelopment\NovaMail\Mailable;
+use KirschbaumDevelopment\NovaMail\Traits\Mailable;
 
 class User extends Model
 {
@@ -52,39 +52,35 @@ And choose the provider for this package: `KirschbaumDevelopment\NovaMail\NovaMa
 
 ## Usage
 
-There is a single component (`Mailer`) and two resources (`NovaMailTemplate` and `NovaSentMail`) that ship with this package.
+There is a single action (`SendMail`) and two resources (`NovaMailTemplate` and `NovaSentMail`) that ship with this package. Internally the `SendMail` action uses a custom Nova field to display the inline mail sending form.
 
-### Mailer component
+### SendMail action
 
-The `Mailer` component is a resource tool that allows you to insert a mail form panel directly onto any Nova resource. This panel allows you to quickly send an email directly to a resource.
+The `SendMail` action inserts a mail form directly into a Nova action modal. This action allows you to quickly send an email directly to one or more resources.
 
-Simply add the `KirschbaumDevelopment\NovaMail\Mailer` resource tool in your Nova resource:
-
-**_NOTE:_** You must pass the `Resource` (i.e. `$this`) to the `Mailer` component like shown below.
+Simply add the `KirschbaumDevelopment\NovaMail\Actions\SendMail` action to your Nova resource:
 
 ```php
 namespace App\Nova;
 
-use KirschbaumDevelopment\NovaMail\Mailer;
+use KirschbaumDevelopment\NovaMail\Actions\SendMail;
 
 class User extends Resource
 {
     // ...
 
-    public function fields(Request $request)
+    public function actions(Request $request)
     {
         return [
             // ...
 
-            new Mailer($this),
-
-            // ...
+            new SendMail,
         ];
     }
 }
 ```
 
-Now you can send emails from the detail view of any resource you've attached the `NovaMail` to!
+Now you can send emails from the action called "Send Mail" on your resource!
 
 ### Mail Template Usage/Caveats
 
@@ -143,7 +139,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### Security
 
-If you discover any security related issues, please email brandon@kirschbaumdevelopment.com or nathan@kirschbaumdevelopment.com instead of using the issue tracker.
+If you discover any security related issues, please email adam@kirschbaumdevelopment.com or nathan@kirschbaumdevelopment.com instead of using the issue tracker.
 
 ## Credits
 

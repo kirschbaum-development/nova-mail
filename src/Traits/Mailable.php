@@ -1,6 +1,6 @@
 <?php
 
-namespace KirschbaumDevelopment\NovaMail;
+namespace KirschbaumDevelopment\NovaMail\Traits;
 
 use KirschbaumDevelopment\NovaMail\Models\NovaSentMail;
 
