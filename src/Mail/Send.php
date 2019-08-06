@@ -102,9 +102,9 @@ class Send extends Mailable
     private function record()
     {
         $this->model->mails()->create([
+            'mail_template_id' => $this->mailTemplate->id,
             'subject' => $this->subject,
             'content' => $this->render(),
-            'mail_template' => $this->mailTemplate,
         ]);
 
         return $this;
