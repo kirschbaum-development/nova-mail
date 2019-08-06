@@ -1,6 +1,6 @@
 {
     "name": "kirschbaum-development/nova-mail",
-    "description": "A Laravel Nova resource tool.",
+    "description": "A Laravel Nova action for sending mail.",
     "keywords": [
         "laravel",
         "nova"
