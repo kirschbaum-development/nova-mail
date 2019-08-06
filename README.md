@@ -1,4 +1,4 @@
-# A mail resource tool for Nova apps
+# An action based mail package for Nova apps
 
 This package contains a Nova action that provides a mail sending form for any resource to easily send email.
 
