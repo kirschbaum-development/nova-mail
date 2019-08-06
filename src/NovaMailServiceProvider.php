@@ -69,13 +69,13 @@ class NovaMailServiceProvider extends ServiceProvider
         });
 
         Nova::serving(function (ServingNova $event) {
-            Nova::script('nova-mail', __DIR__ . '/../dist/js/tool.js');
-            Nova::style('nova-mail', __DIR__ . '/../dist/css/tool.css');
+            Nova::script('SendMail', __DIR__ . '/../dist/js/field.js');
+            Nova::style('SendMail', __DIR__ . '/../dist/css/field.css');
         });
     }
 
     /**
-     * Register the tool's routes.
+     * Register the package's routes.
      *
      * @return void
      */
