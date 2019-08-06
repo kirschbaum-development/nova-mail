@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate;
 
-class SendMail extends Mailable
+class Send extends Mailable
 {
     use Queueable, SerializesModels;
 
