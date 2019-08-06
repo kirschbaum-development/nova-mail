@@ -50,13 +50,14 @@ class NovaSentMail extends Resource
         return [
             MorphTo::make('mailable')->hideFromIndex(),
             BelongsTo::make('Sender', 'sender', User::class),
-            Text::make('subject'),
-            Textarea::make('content')
+            Text::make('Subject'),
+            BelongsTo::make('Template', 'mailTemplate', NovaMailTemplate::class),
+            Textarea::make('Content')
                 ->displayUsing(function ($content) {
                     return trim(strip_tags($content));
                 })
                 ->alwaysShow(),
-            DateTime::make('Sent At', 'created_at'),
+            DateTime::make('Sent At', 'created_at')->format('M/d/Y h:mm:ss a'),
         ];
     }
 
