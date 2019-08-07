@@ -5,11 +5,11 @@
 
 This package contains a Nova action that provides a mail sending form for any resource to easily send email.
 
-![screenshot of the send mail action modal](screenshots/send-mail-modal-empty.png)
+![screenshot of the send mail action modal](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/send-mail-modal-empty.png)
 
-![screenshot of the send mail action modal with template selected](screenshots/send-mail-modal-template-selected.png)
+![screenshot of the send mail action modal with template selected](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/send-mail-modal-template-selected.png)
 
-![screenshot of sent email in mailtrap](screenshots/sent-mail.png)
+![screenshot of sent email in mailtrap](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/sent-mail.png)
 
 ## Requirements
 
@@ -111,7 +111,7 @@ Let me know if you have any questions.
 @endcomponent
 ```
 
-![screenshot of the create mail template](screenshots/create-mail-template.png)
+![screenshot of the create mail template](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/create-mail-template.png)
 
 ### Sent Mail Usage
 
@@ -140,7 +140,7 @@ class User extends Resource
 }
 ```
 
-![screenshot of the sent mail index](screenshots/nova-sent-mail.png)
+![screenshot of the sent mail index](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/nova-sent-mail.png)
 
 ## Changelog
 
