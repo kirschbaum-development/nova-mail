@@ -2,6 +2,12 @@
 
 This package contains a Nova action that provides a mail sending form for any resource to easily send email.
 
+![screenshot of the send mail action modal](screenshots/send-mail-modal-empty.png)
+
+![screenshot of the send mail action modal with template selected](screenshots/send-mail-modal-template-selected.png)
+
+![screenshot of sent email in mailtrap](screenshots/sent-mail.png)
+
 ## Requirements
 
 This Nova package requires Nova 2.0 or higher.
@@ -102,6 +108,8 @@ Let me know if you have any questions.
 @endcomponent
 ```
 
+![screenshot of the create mail template](screenshots/create-mail-template.png)
+
 ### Sent Mail Usage
 
 The `NovaSentMail` resource can be added as a relationship field to any `Resource` that has the `Mailable` trait defined on it's corresponding model. This gives you direct access to the history of emails sent from that `Resource`:
@@ -128,6 +136,8 @@ class User extends Resource
     }
 }
 ```
+
+![screenshot of the sent mail index](screenshots/nova-sent-mail.png)
 
 ## Changelog
 
