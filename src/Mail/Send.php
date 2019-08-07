@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate;
 
-class Send extends Mailable
+class Send extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -20,14 +21,19 @@ class Send extends Mailable
     public $model;
 
     /**
-     * @var int
+     * @var \KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate
      */
-    public $template;
+    public $mailTemplate;
 
     /**
      * @var string
      */
     public $content;
+
+    /**
+     * @var string
+     */
+    public $timestamp;
 
     /**
      * Create a new message instance.
