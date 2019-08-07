@@ -1,5 +1,8 @@
 # An action based mail package for Nova apps
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/kirschbaum-development/nova-mail.svg?style=flat-square)](https://packagist.org/packages/kirschbaum-development/nova-mail)
+[![Total Downloads](https://img.shields.io/packagist/dt/kirschbaum-development/nova-mail.svg?style=flat-square)](https://packagist.org/packages/kirschbaum-development/nova-mail)
+
 This package contains a Nova action that provides a mail sending form for any resource to easily send email.
 
 ![screenshot of the send mail action modal](screenshots/send-mail-modal-empty.png)
