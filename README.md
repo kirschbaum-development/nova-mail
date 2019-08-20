@@ -1,3 +1,4 @@
+![banner](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/banner.png)
 # An action based mail package for Nova apps
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/kirschbaum-development/nova-mail.svg?style=flat-square)](https://packagist.org/packages/kirschbaum-development/nova-mail)
