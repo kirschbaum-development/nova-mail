@@ -22,6 +22,24 @@
         >
           <option value selected>{{ __('Choose an option') }}</option>
         </select-control>
+
+        <div class="w-full" v-if="! isEvent(modelEvent.event) && isValidModelEvent(modelEvent)">
+          <checkbox-with-label
+            class="m-2"
+            :checked="modelEvent.anyValue"
+            @change="updateCheckedState(modelEvent, $event)"
+          >Any Value?</checkbox-with-label>
+
+          <input
+            type="text"
+            placeholder="Column Value"
+            v-model="modelEvent.value"
+            v-if="! modelEvent.anyValue"
+            :id="field.attribute + '-' + index + '-value'"
+            class="w-full form-control form-input form-input-bordered"
+          />
+        </div>
+
         <div class="mt-2 flex justify-end">
           <button
             type="button"
@@ -56,9 +74,15 @@
 <script>
 import { FormField, HandlesValidationErrors } from 'laravel-nova'
 import Init from '../../mixins/Init';
+import InteractsWithModelEvents from '../../mixins/InteractsWithModelEvents';
 
 export default {
-  mixins: [FormField, HandlesValidationErrors, Init],
+  mixins: [
+    FormField,
+    HandlesValidationErrors,
+    Init,
+    InteractsWithModelEvents
+  ],
 
   data() {
     return {
@@ -66,6 +90,7 @@ export default {
       newModelEvent: {
         model: '',
         event: '',
+        anyValue: true,
       },
     }
   },
@@ -101,6 +126,10 @@ export default {
 
     isValidModelEvent(modelEvent) {
       return modelEvent.model != '' && modelEvent.event != ''
+    },
+
+    updateCheckedState(modelEvent, event) {
+      modelEvent.anyValue = !modelEvent.anyValue;
     }
   },
 
