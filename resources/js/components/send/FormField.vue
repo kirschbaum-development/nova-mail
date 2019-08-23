@@ -54,8 +54,8 @@
 
 <script>
 import { FormField, HandlesValidationErrors } from 'laravel-nova'
-import Init from '../mixins/Init';
-import InteractsWithTemplates from '../mixins/InteractsWithTemplates';
+import Init from '../../mixins/Init';
+import InteractsWithTemplates from '../../mixins/InteractsWithTemplates';
 
 export default {
   mixins: [FormField, HandlesValidationErrors, InteractsWithTemplates],
