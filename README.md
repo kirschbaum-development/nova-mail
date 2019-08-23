@@ -1,16 +1,18 @@
 ![banner](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/banner.png)
-# An action based mail package for Nova apps
+# Nova Mail
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/kirschbaum-development/nova-mail.svg?style=flat-square)](https://packagist.org/packages/kirschbaum-development/nova-mail)
 [![Total Downloads](https://img.shields.io/packagist/dt/kirschbaum-development/nova-mail.svg?style=flat-square)](https://packagist.org/packages/kirschbaum-development/nova-mail)
 
-This package contains a Nova action that provides a mail sending form for any resource to easily send email.
+This package contains a Nova action that provides a mail sending form for any resource to easily send email. It also includes automated mail sending based on Eloquent Model events/attribute changes.
 
 ![screenshot of the send mail action modal](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/send-mail-modal-empty.png)
 
 ![screenshot of the send mail action modal with template selected](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/send-mail-modal-template-selected.png)
 
 ![screenshot of sent email in mailtrap](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/sent-mail.png)
+
+![screenshot of mail template model events](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/mail-template-model-events.png)
 
 ## Requirements
 
@@ -91,6 +93,18 @@ class User extends Resource
 ```
 
 Now you can send emails from the action called "Send Mail" on your resource!
+
+### Model Based Mail Sending
+
+A powerful feature related to Mail Templates is the capability to associate eloquent model events to your pre-defined templates.
+
+For example you could create a Mail Template with a Model Event that monitors an 'active' column on your `User` model that when toggled sends an email to the user letting them know the current status of their account:
+
+![screenshot of the account status mail template](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/model-event-account-status-change.png)
+
+You can even have separate models for both "on" an "off"!
+
+![screenshot of the account status with value mail template](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/model-event-account-status-change.png)
 
 ### Mail Template Usage/Caveats
 
