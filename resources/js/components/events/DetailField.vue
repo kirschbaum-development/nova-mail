@@ -23,7 +23,7 @@
               <textarea
                 type="text"
                 :disabled="true"
-                v-html="item.key"
+                v-html="item.model"
                 class="font-mono text-sm resize-none block hover:bg-20 min-h-input w-full form-control form-input form-input-row py-4"
               />
             </div>
@@ -33,7 +33,7 @@
                 <textarea
                   type="text"
                   :disabled="true"
-                  v-html="isEvent(item.value) ? item.value : 'updated'"
+                  v-html="isEvent(item.event) ? item.event : 'updated'"
                   class="font-mono text-sm resize-none block hover:bg-20 min-h-input w-full form-control form-input form-input-row py-4"
                 ></textarea>
               </div>
@@ -44,7 +44,7 @@
                 <textarea
                   type="text"
                   :disabled="true"
-                  v-html="isEvent(item.value) ? '' : item.value"
+                  v-html="isEvent(item.event) ? '' : item.event + ' (value=' + item.value + ')'"
                   class="font-mono text-sm resize-none block hover:bg-20 min-h-input w-full form-control form-input form-input-row py-4"
                 ></textarea>
               </div>
@@ -69,25 +69,20 @@
 </template>
 
 <script>
-export default {
-  props: ['resource', 'resourceName', 'resourceId', 'field'],
+import InteractsWithModelEvents from '../../mixins/InteractsWithModelEvents';
 
-  methods: {
-    isEvent(value) {
-      return _.includes([
-        'retrieved', 'creating', 'created', 'updating', 'updated',
-        'saving', 'saved', 'restoring', 'restored', 'replicating',
-        'deleting', 'deleted', 'forceDeleted',
-      ], value);
-    },
-  },
+export default {
+  mixins: [InteractsWithModelEvents],
+
+  props: ['resource', 'resourceName', 'resourceId', 'field'],
 
   computed: {
     modelEvents() {
       return _.map(JSON.parse(this.field.value) || [], (value, key) => {
         return {
-          key: value.model,
-          value: value.event
+          model: value.model,
+          event: value.event,
+          value: value.value,
         };
       });
     },
