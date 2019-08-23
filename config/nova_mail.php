@@ -50,4 +50,20 @@ return [
         'nova_sent_mail' => true,
         'nova_mail_template' => true,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Classes for dynamic event/column listening
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify which classes can have dynamic
+    | listeners for sending Nova Mail Templates.
+    |
+    | Ex: [User::class]
+    |
+    | Note: These classes must use the Mailable trait and
+    |       implement the abstract method getEmailField.
+    ]
+    */
+    'eventables' => [],
 ];
