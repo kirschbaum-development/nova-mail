@@ -15,6 +15,7 @@ class NovaMailTemplate extends Model
         'name',
         'subject',
         'content',
+        'model_events',
     ];
 
     /**
