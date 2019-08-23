@@ -130,6 +130,10 @@ export default {
 
     updateCheckedState(modelEvent, event) {
       modelEvent.anyValue = !modelEvent.anyValue;
+
+      if (modelEvent.anyValue) {
+        modelEvent.value = null;
+      }
     }
   },
 

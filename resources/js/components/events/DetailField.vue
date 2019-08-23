@@ -33,7 +33,7 @@
                 <textarea
                   type="text"
                   :disabled="true"
-                  v-html="isEvent(item.event) ? item.event : 'updated'"
+                  v-html="itemEventHtml(item)"
                   class="font-mono text-sm resize-none block hover:bg-20 min-h-input w-full form-control form-input form-input-row py-4"
                 ></textarea>
               </div>
@@ -44,7 +44,7 @@
                 <textarea
                   type="text"
                   :disabled="true"
-                  v-html="isEvent(item.event) ? '' : item.event + ' (value=' + item.value + ')'"
+                  v-html="itemColumnHtml(item)"
                   class="font-mono text-sm resize-none block hover:bg-20 min-h-input w-full form-control form-input form-input-row py-4"
                 ></textarea>
               </div>
@@ -75,6 +75,16 @@ export default {
   mixins: [InteractsWithModelEvents],
 
   props: ['resource', 'resourceName', 'resourceId', 'field'],
+
+  methods: {
+    itemEventHtml(item) {
+      return this.isEvent(item.event) ? item.event : 'updated';
+    },
+
+    itemColumnHtml(item) {
+      return this.isEvent(item.event) ? '' : item.event + (item.value ? ' == ' + item.value : '');
+    }
+  },
 
   computed: {
     modelEvents() {
