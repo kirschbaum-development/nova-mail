@@ -27,7 +27,9 @@ trait Mailable
                     } else {
                         $modelEvent->model::updated(function ($model) use ($novaMailTemplate, $modelEvent) {
                             if ($model->isDirty($modelEvent->event)) {
-                                $model->sendMailTemplate($novaMailTemplate);
+                                if ($modelEvent->anyValue || $model->{$modelEvent->event} == $modelEvent->value) {
+                                    $model->sendMailTemplate($novaMailTemplate);
+                                }
                             }
                         });
                     }
