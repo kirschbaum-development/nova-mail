@@ -69,8 +69,8 @@ class NovaMailServiceProvider extends ServiceProvider
         });
 
         Nova::serving(function (ServingNova $event) {
-            Nova::script('SendMail', __DIR__ . '/../dist/js/field.js');
-            Nova::style('SendMail', __DIR__ . '/../dist/css/field.css');
+            Nova::script('send-mail', __DIR__ . '/../dist/js/fields.js');
+            Nova::style('send-mail', __DIR__ . '/../dist/css/fields.css');
         });
     }
 
