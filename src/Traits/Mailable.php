@@ -15,26 +15,25 @@ trait Mailable
      */
     public static function bootMailable()
     {
-        NovaMailTemplate::whereRaw(self::whereClause())
-            ->each(function (NovaMailTemplate $novaMailTemplate) {
-                $modelEvents = json_decode($novaMailTemplate->model_events);
-
-                collect($modelEvents)->each(function ($modelEvent) use ($novaMailTemplate) {
-                    if (collect(resolve($modelEvent->model)->getObservableEvents())->contains($modelEvent->event)) {
-                        $modelEvent->model::{$modelEvent->event}(function ($model) use ($novaMailTemplate) {
-                            $model->sendMailTemplate($novaMailTemplate);
-                        });
-                    } else {
-                        $modelEvent->model::updated(function ($model) use ($novaMailTemplate, $modelEvent) {
-                            if ($model->isDirty($modelEvent->event)) {
-                                if ($modelEvent->anyValue || $model->{$modelEvent->event} == $modelEvent->value) {
-                                    $model->sendMailTemplate($novaMailTemplate);
-                                }
+        NovaMailTemplate::whereHas('events', function ($query) {
+            $query->whereModel(get_called_class());
+        })->each(function (NovaMailTemplate $novaMailTemplate) {
+            $novaMailTemplate->events->each(function ($event) use ($novaMailTemplate) {
+                if (collect(resolve($event->model)->getObservableEvents())->contains($event->name)) {
+                    $event->model::{$event->name}(function ($model) use ($novaMailTemplate) {
+                        $model->sendMailTemplate($novaMailTemplate);
+                    });
+                } else {
+                    $event->model::updated(function ($model) use ($novaMailTemplate, $event) {
+                        if ($model->isDirty($event->name)) {
+                            if (! $event->value || $model->{$event->name} == $event->value) {
+                                $model->sendMailTemplate($novaMailTemplate);
                             }
-                        });
-                    }
-                });
+                        }
+                    });
+                }
             });
+        });
     }
 
     /**
@@ -140,15 +139,5 @@ trait Mailable
             $column == $this->getKeyName() ||
             in_array($column, [$this->getCreatedAtColumn(), $this->getUpdatedAtColumn()]) ||
             (in_array(SoftDeletes::class, class_uses($this)) && $column == $this->getDeletedAtColumn());
-    }
-
-    /**
-     * Raw where clause for listener registration.
-     *
-     * @return string
-     */
-    protected static function whereClause()
-    {
-        return sprintf('JSON_CONTAINS(model_events->"$[*].model", JSON_QUOTE("%s"))', addslashes(get_called_class()));
     }
 }
