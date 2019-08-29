@@ -8,7 +8,7 @@ export default {
 
   computed: {
     eventCount() {
-      return JSON.parse(this.field.value).length;
+      return this.field.value && Array.isArray(this.field.value) && this.field.value.length || 0;
     },
   },
 }

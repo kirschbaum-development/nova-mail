@@ -9,15 +9,15 @@
           <div class="flex-1 uppercase font-bold text-xs text-80 tracking-wide px-3 py-3">Model</div>
           <div
             class="flex-1 uppercase font-bold text-xs text-80 tracking-wide px-3 py-3 border-l border-50"
-          >Event</div>
+          >Event Name</div>
           <div
             class="flex-1 uppercase font-bold text-xs text-80 tracking-wide px-3 py-3 border-l border-50"
-          >Column</div>
+          >Value</div>
         </div>
       </div>
 
-      <div v-if="modelEvents.length > 0" class="bg-white rounded-b-lg overflow-hidden">
-        <div v-for="(item, index) in modelEvents" :key="index" class="flex items-center">
+      <div v-if="events.length > 0" class="bg-white rounded-b-lg overflow-hidden">
+        <div v-for="(item, index) in events" :key="index" class="flex items-center">
           <div class="flex flex-grow border-b border-50">
             <div class="flex-1 cursor-text">
               <textarea
@@ -69,10 +69,10 @@
 </template>
 
 <script>
-import InteractsWithModelEvents from '../../mixins/InteractsWithModelEvents';
+import InteractsWithEvents from '../../mixins/InteractsWithEvents';
 
 export default {
-  mixins: [InteractsWithModelEvents],
+  mixins: [InteractsWithEvents],
 
   props: ['resource', 'resourceName', 'resourceId', 'field'],
 
@@ -87,11 +87,11 @@ export default {
   },
 
   computed: {
-    modelEvents() {
-      return _.map(JSON.parse(this.field.value) || [], (value, key) => {
+    events() {
+      return _.map(this.field.value, (value, key) => {
         return {
           model: value.model,
-          event: value.event,
+          event: value.name,
           value: value.value,
         };
       });
