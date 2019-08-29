@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\Text;
-use KirschbaumDevelopment\NovaMail\ModelEvents;
+use KirschbaumDevelopment\NovaMail\Events;
 use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate as NovaMailTemplateModel;
 
 class NovaMailTemplate extends Resource
@@ -48,7 +48,7 @@ class NovaMailTemplate extends Resource
             Text::make('Name'),
             Text::make('Subject'),
             Code::make('Content')->language('markdown')->hideFromIndex(),
-            ModelEvents::make('Model Events'),
+            Events::make('Events'),
         ];
     }
 
