@@ -15,7 +15,6 @@ class NovaMailTemplate extends Model
         'name',
         'subject',
         'content',
-        'model_events',
     ];
 
     /**
@@ -26,5 +25,15 @@ class NovaMailTemplate extends Model
     public function mails()
     {
         return $this->hasMany(NovaSentMail::class);
+    }
+
+    /**
+     * Get the mail template's events.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function events()
+    {
+        return $this->hasMany(NovaMailEvent::class, 'mail_template_id');
     }
 }

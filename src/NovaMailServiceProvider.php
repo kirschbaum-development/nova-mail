@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use KirschbaumDevelopment\NovaMail\Nova\NovaSentMail;
+use KirschbaumDevelopment\NovaMail\Nova\NovaMailEvent;
 use KirschbaumDevelopment\NovaMail\Nova\NovaMailTemplate;
 use KirschbaumDevelopment\NovaMail\Policies\NovaSentMailPolicy;
 use KirschbaumDevelopment\NovaMail\Models\NovaSentMail as NovaSentMailModel;
@@ -61,6 +62,7 @@ class NovaMailServiceProvider extends ServiceProvider
     {
         Nova::resources([
             NovaSentMail::class,
+            NovaMailEvent::class,
             NovaMailTemplate::class,
         ]);
 

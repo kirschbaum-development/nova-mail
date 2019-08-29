@@ -49,6 +49,7 @@ return [
     'show_resources' => [
         'nova_sent_mail' => true,
         'nova_mail_template' => true,
+        'nova_mail_event' => true,
     ],
 
     /*
