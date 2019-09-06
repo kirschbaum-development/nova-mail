@@ -94,7 +94,7 @@ class User extends Resource
 
 Now you can send emails from the action called "Send Mail" on your resource!
 
-### Model Based Mail Sending
+### Trigger Mail on Model Events
 
 A powerful feature related to Mail Templates is the capability to associate eloquent model events to your pre-defined templates.
 
