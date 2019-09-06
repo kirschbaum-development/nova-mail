@@ -96,7 +96,7 @@ Now you can send emails from the action called "Send Mail" on your resource!
 
 ### Trigger Mail on Model Events
 
-You can create a `Mail`Template` with a Model Event that monitors an 'active' column on your `User` model that when toggled sends an email to the user letting them know the current status of their account:
+You can create a `MailTemplate` with a Model Event that monitors an 'active' column on your `User` model that when toggled sends an email to the user letting them know the current status of their account:
 
 ![screenshot of the account status mail template](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/model-event-account-status-change.png)
 
