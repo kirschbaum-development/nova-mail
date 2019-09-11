@@ -23,7 +23,17 @@
           <option value selected>{{ __('Choose an option') }}</option>
         </select-control>
 
-        <div class="w-full" v-if="! isEvent(event.name) && isValidEvent(event)">
+        <select-control
+          v-if="event.name && event.name == 'updated'"
+          v-model="event.column"
+          :options="getColumns(event)"
+          class="mt-2 w-full form-control form-select"
+          :id="field.attribute + '-' + index + '-column'"
+        >
+          <option value selected>{{ __('Choose an option') }}</option>
+        </select-control>
+
+        <div class="w-full" v-if="event.column && isValidEvent(event)">
           <checkbox-with-label
             class="m-2"
             :checked="event.anyValue || false"
@@ -91,6 +101,7 @@ export default {
         id: null,
         model: '',
         name: '',
+        column: null,
         anyValue: true,
       },
     }
@@ -99,9 +110,11 @@ export default {
   mounted() {
     if (this.field.value) {
       this.$set(this, 'events', _.map(this.field.value, event => {
+        console.log(event.value);
         return {
           ...event,
-          anyValue: event.value ? false : true,
+          value: event.value == '' ? '' : null,
+          anyValue: event.value || event.value == '' ? false : true,
         };
       }));
     }
@@ -114,6 +127,10 @@ export default {
   methods: {
     getEvents(event) {
       return event.model ? this.field.eventables.find(model => model.value == event.model).events : [];
+    },
+
+    getColumns(event) {
+      return event.model ? this.field.eventables.find(model => model.value == event.model).columns : [];
     },
 
     addEvent() {
@@ -142,16 +159,18 @@ export default {
 
       if (event.anyValue) {
         event.value = null;
+      } else {
+        event.value = '';
       }
-    }
+    },
   },
 
   watch: {
     events: {
       handler(newValue, oldValue) {
-        const data = _.filter(this.events, event => {
+        const data = _.chain(this.events).filter(event => {
           return this.isValidEvent(event);
-        });
+        }).value();
         this.handleChange(JSON.stringify(data));
       },
       deep: true,

@@ -12,6 +12,9 @@
           >Event Name</div>
           <div
             class="flex-1 uppercase font-bold text-xs text-80 tracking-wide px-3 py-3 border-l border-50"
+          >Column</div>
+          <div
+            class="flex-1 uppercase font-bold text-xs text-80 tracking-wide px-3 py-3 border-l border-50"
           >Value</div>
         </div>
       </div>
@@ -33,7 +36,7 @@
                 <textarea
                   type="text"
                   :disabled="true"
-                  v-html="itemEventHtml(item)"
+                  v-html="item.event"
                   class="font-mono text-sm resize-none block hover:bg-20 min-h-input w-full form-control form-input form-input-row py-4"
                 ></textarea>
               </div>
@@ -44,7 +47,18 @@
                 <textarea
                   type="text"
                   :disabled="true"
-                  v-html="itemColumnHtml(item)"
+                  v-html="item.column"
+                  class="font-mono text-sm resize-none block hover:bg-20 min-h-input w-full form-control form-input form-input-row py-4"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="flex-1 cursor-text">
+              <div class="border-l border-50">
+                <textarea
+                  type="text"
+                  :disabled="true"
+                  v-html="itemValueHtml(item)"
                   class="font-mono text-sm resize-none block hover:bg-20 min-h-input w-full form-control form-input form-input-row py-4"
                 ></textarea>
               </div>
@@ -77,22 +91,19 @@ export default {
   props: ['resource', 'resourceName', 'resourceId', 'field'],
 
   methods: {
-    itemEventHtml(item) {
-      return this.isEvent(item.event) ? item.event : 'updated';
-    },
-
-    itemColumnHtml(item) {
-      return this.isEvent(item.event) ? '' : item.event + (item.value ? ' == ' + item.value : '');
+    itemValueHtml(item) {
+      return item.value ? item.column + ' == ' + item.value : '';
     }
   },
 
   computed: {
     events() {
-      return _.map(this.field.value, (value, key) => {
+      return _.map(this.field.value, (event, key) => {
         return {
-          model: value.model,
-          event: value.name,
-          value: value.value,
+          model: event.model,
+          event: event.name,
+          column: event.column,
+          value: event.value,
         };
       });
     },
