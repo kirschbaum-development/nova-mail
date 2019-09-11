@@ -18,21 +18,27 @@ trait Mailable
         NovaMailTemplate::whereHas('events', function ($query) {
             $query->whereModel(get_called_class());
         })->each(function (NovaMailTemplate $novaMailTemplate) {
-            $novaMailTemplate->events->each(function ($event) use ($novaMailTemplate) {
-                if (collect(resolve($event->model)->getObservableEvents())->contains($event->name)) {
-                    $event->model::{$event->name}(function ($model) use ($novaMailTemplate) {
-                        $model->sendMailTemplate($novaMailTemplate);
-                    });
-                } else {
-                    $event->model::updated(function ($model) use ($novaMailTemplate, $event) {
-                        if ($model->isDirty($event->name)) {
-                            if (! $event->value || $model->{$event->name} == $event->value) {
-                                $model->sendMailTemplate($novaMailTemplate);
+            $novaMailTemplate->events
+                ->filter(function ($event) {
+                    return collect(config('nova_mail.eventables'))->contains($event->model);
+                })
+                ->each(function ($event) use ($novaMailTemplate) {
+                    if ($event->column) {
+                        $event->model::updated(function ($model) use ($novaMailTemplate, $event) {
+                            if ($model->isDirty($event->column)) {
+                                $value = is_bool($model->{$event->column}) ? filter_var($event->value, FILTER_VALIDATE_BOOLEAN) : $event->value;
+
+                                if ($model->{$event->column} == $value) {
+                                    $model->sendMailTemplate($novaMailTemplate);
+                                }
                             }
-                        }
-                    });
-                }
-            });
+                        });
+                    } else {
+                        $event->model::{$event->name}(function ($model) use ($novaMailTemplate) {
+                            $model->sendMailTemplate($novaMailTemplate);
+                        });
+                    }
+                });
         });
     }
 
