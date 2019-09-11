@@ -96,7 +96,7 @@ Now you can send emails from the action called "Send Mail" on your resource!
 
 ### Trigger Mail on Model Events
 
-You can create a `MailTemplate` with a Model Event that monitors an 'active' column on your `User` model that when toggled sends an email to the user letting them know the current status of their account:
+A `MailTemplate` can be configured to respond to Eloquent Model events or a value change of a specified column. For example, a mail template informing your users of their account status could be sent when the `active` column on your `User` model is updated:
 
 ![screenshot of the account status mail template](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/model-event-account-status-change.png)
 
