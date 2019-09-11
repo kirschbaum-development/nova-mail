@@ -47,16 +47,6 @@ trait Mailable
     }
 
     /**
-     * Get the model's trackable model events and columns.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function mailableTrackables()
-    {
-        return $this->mailableEvents()->merge($this->mailableColumns());
-    }
-
-    /**
      * Send a mail.
      *
      * @param \KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate $novaMailTemplate
@@ -76,25 +66,18 @@ trait Mailable
     }
 
     /**
-     * Get the name of the email field.
-     *
-     * @return string
-     */
-    abstract public function getEmailField(): string;
-
-    /**
      * Get the model's table columns.
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function mailableColumns()
+    public function mailableColumns()
     {
         return collect(
             $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable())
         )->reject(function ($column) {
             return $this->rejectableColumn($column);
         })->map(function ($column) {
-            return ['label' => $column, 'value' => $column, 'group' => 'Columns'];
+            return ['label' => $column, 'value' => $column];
         });
     }
 
@@ -103,16 +86,23 @@ trait Mailable
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function mailableEvents()
+    public function mailableEvents()
     {
         return collect(
             $this->getObservableEvents()
         )->reject(function ($event) {
             return $this->rejectableEvent($event);
         })->map(function ($event) {
-            return ['label' => ucfirst($event), 'value' => $event, 'group' => 'Events'];
+            return ['label' => ucfirst($event), 'value' => $event];
         });
     }
+
+    /**
+     * Get the name of the email field.
+     *
+     * @return string
+     */
+    abstract public function getEmailField(): string;
 
     /**
      * Check if the event should be rejected.

@@ -18,6 +18,7 @@ class CreateNovaMailEventsTable extends Migration
             $table->unsignedBigInteger('mail_template_id');
             $table->string('model');
             $table->string('name');
+            $table->string('column')->nullable();
             $table->string('value')->nullable();
             $table->timestamps();
         });

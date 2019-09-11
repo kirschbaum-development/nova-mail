@@ -42,7 +42,8 @@ class Events extends Field
             return [
                 'label' => $class,
                 'value' => $class,
-                'events' => $this->getModelTrackables($class),
+                'events' => $this->getModelEvents($class),
+                'columns' => $this->getModelColumns($class),
             ];
         });
 
@@ -65,22 +66,35 @@ class Events extends Field
                 ], [
                     'model' => data_get($event, 'model'),
                     'name' => data_get($event, 'name'),
+                    'column' => data_get($event, 'column'),
                     'value' => data_get($event, 'anyValue') ? null : $event['value'],
                 ]);
             });
-            $requestAttribute->events()->whereNotIn('id', $events->pluck('id'))->get()->each->delete();
+            $requestAttribute->{$model}()->whereNotIn('id', $events->pluck('id'))->get()->each->delete();
         });
     }
 
     /**
-     * Get the model's trackable events and columns.
+     * Get the model's trackable events.
      *
      * @param string $class
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function getModelTrackables($class)
+    protected function getModelEvents($class)
     {
-        return resolve($class)->mailableTrackables();
+        return resolve($class)->mailableEvents();
+    }
+
+    /**
+     * Get the model's trackable columns.
+     *
+     * @param string $class
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    protected function getModelColumns($class)
+    {
+        return resolve($class)->mailableColumns();
     }
 }
