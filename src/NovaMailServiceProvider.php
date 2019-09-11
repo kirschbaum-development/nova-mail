@@ -14,7 +14,9 @@ use KirschbaumDevelopment\NovaMail\Nova\NovaMailEvent;
 use KirschbaumDevelopment\NovaMail\Nova\NovaMailTemplate;
 use KirschbaumDevelopment\NovaMail\Policies\NovaSentMailPolicy;
 use KirschbaumDevelopment\NovaMail\Exceptions\EventableMissingTrait;
+use KirschbaumDevelopment\NovaMail\Observers\NovaMailTemplateObserver;
 use KirschbaumDevelopment\NovaMail\Models\NovaSentMail as NovaSentMailModel;
+use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate as NovaMailTemplateModel;
 
 class NovaMailServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,7 @@ class NovaMailServiceProvider extends ServiceProvider
     {
         $this->config();
         $this->migrations();
+        $this->observers();
         $this->policies();
         $this->nova();
         $this->ensureEventablesAreMailable();
@@ -64,6 +67,16 @@ class NovaMailServiceProvider extends ServiceProvider
     protected function migrations()
     {
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
+    }
+
+    /**
+     * Register observers.
+     *
+     * @return void
+     */
+    protected function observers()
+    {
+        NovaMailTemplateModel::observe(NovaMailTemplateObserver::class);
     }
 
     /**
