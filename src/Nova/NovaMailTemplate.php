@@ -48,7 +48,7 @@ class NovaMailTemplate extends Resource
             Text::make('Name'),
             Text::make('Subject'),
             Code::make('Content')->language('markdown')->hideFromIndex(),
-            Events::make('Events'),
+            Events::make('Events')->hideWhenCreating()->help('Targeting a specific column is only available on the "Updated" event.'),
         ];
     }
 
