@@ -49,6 +49,7 @@ class NovaMailEvent extends Resource
             BelongsTo::make('Template', 'mailTemplate', NovaMailTemplate::class),
             Text::make('Model'),
             Text::make('Event Name', 'name'),
+            Text::make('Column'),
             Text::make('Value'),
         ];
     }
