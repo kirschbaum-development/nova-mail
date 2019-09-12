@@ -92,7 +92,11 @@ export default {
 
   methods: {
     itemValueHtml(item) {
-      return item.value ? item.column + ' == ' + item.value : '';
+      if (item.value) {
+        return item.column + ' == ' + item.value;
+      }
+
+      return item.value == '' ? item.column + ' == ' + '""' : '';
     }
   },
 

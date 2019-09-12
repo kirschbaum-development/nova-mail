@@ -110,11 +110,10 @@ export default {
   mounted() {
     if (this.field.value) {
       this.$set(this, 'events', _.map(this.field.value, event => {
-        console.log(event.value);
         return {
           ...event,
-          value: event.value == '' ? '' : null,
-          anyValue: event.value || event.value == '' ? false : true,
+          value: event.value,
+          anyValue: _.isNull(event.value),
         };
       }));
     }
