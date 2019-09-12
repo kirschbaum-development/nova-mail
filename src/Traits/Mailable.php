@@ -28,7 +28,7 @@ trait Mailable
                             if ($model->isDirty($event->column)) {
                                 $value = is_bool($model->{$event->column}) ? filter_var($event->value, FILTER_VALIDATE_BOOLEAN) : $event->value;
 
-                                if ($model->{$event->column} == $value) {
+                                if (! $event->value || $model->{$event->column} == $value) {
                                     $model->sendMailTemplate($novaMailTemplate);
                                 }
                             }
