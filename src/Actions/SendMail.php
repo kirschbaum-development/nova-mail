@@ -17,6 +17,16 @@ class SendMail extends Action
     use InteractsWithQueue, Queueable, SerializesModels;
 
     /**
+     * Get the displayable name of the action.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return __('Send Mail');
+    }
+
+    /**
      * Perform the action on the given models.
      *
      * @param  \Laravel\Nova\Fields\ActionFields  $fields

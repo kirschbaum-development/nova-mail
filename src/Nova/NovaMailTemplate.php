@@ -26,6 +26,26 @@ class NovaMailTemplate extends Resource
     public static $title = 'name';
 
     /**
+     * Get the displayable label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Mail Templates');
+    }
+
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('Mail Template');
+    }
+
+    /**
      * The columns that should be searched.
      *
      * @var array
@@ -44,9 +64,9 @@ class NovaMailTemplate extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('name'),
-            Text::make('subject'),
-            Code::make('content')->language('markdown')->hideFromIndex(),
+            Text::make(__('Name'), 'name'),
+            Text::make(__('Subject'), 'subject'),
+            Code::make(__('Content'), 'content')->language('markdown')->hideFromIndex(),
         ];
     }
 
@@ -96,16 +116,6 @@ class NovaMailTemplate extends Resource
     public function actions(Request $request)
     {
         return [];
-    }
-
-    /**
-     * Get the displayable label of the resource.
-     *
-     * @return string
-     */
-    public static function label()
-    {
-        return Str::plural('Mail Template');
     }
 
     /**
