@@ -4,7 +4,7 @@
       <div class="flex w-2/3 justify-between px-8 pt-4">
         <div
           class="help-text mr-4"
-        >{{ _('Adjust an existing mail template or craft an email from scratch! You can use normal blade syntax and include attributes from this resources model') }}&hellip;</div>
+        >Adjust an existing mail template or craft an email from scratch! You can use normal blade syntax and include attributes from this resources model&hellip;</div>
       </div>
 
       <div class="flex border-b border-40 remove-bottom-border px-8 py-4">
@@ -17,7 +17,7 @@
             class="form-control form-select mb-4"
             v-if="hasTemplates"
           >
-            <option value disabled="disabled">{{ _('Select Mail Template') }}&hellip;</option>
+            <option value disabled="disabled">Select Mail Template&hellip;</option>
 
             <option
               :value="template"
