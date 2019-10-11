@@ -71,7 +71,7 @@ class NovaMailTemplate extends Resource
 
             Code::make(__('Content'), 'content')->language('markdown')->hideFromIndex(),
 
-            Medialibrary::make(__('Attachments'), 'mail-templates'),
+            Medialibrary::make(__('Attachments'), 'mail-templates')->hideFromIndex(),
         ];
     }
 
