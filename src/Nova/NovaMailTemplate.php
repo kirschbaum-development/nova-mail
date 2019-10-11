@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\Text;
+use DmitryBubyakin\NovaMedialibraryField\Fields\Medialibrary;
 use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate as NovaMailTemplateModel;
 
 class NovaMailTemplate extends Resource
@@ -65,8 +66,12 @@ class NovaMailTemplate extends Resource
     {
         return [
             Text::make(__('Name'), 'name'),
+            
             Text::make(__('Subject'), 'subject'),
+
             Code::make(__('Content'), 'content')->language('markdown')->hideFromIndex(),
+
+            Medialibrary::make(__('Attachments'), 'mail-templates'),
         ];
     }
 
