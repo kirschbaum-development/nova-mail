@@ -7,7 +7,9 @@
     ],
     "license": "MIT",
     "require": {
-        "php": ">=7.1.0"
+        "php": ">=7.1.0",
+        "dmitrybubyakin/nova-medialibrary-field": "^1.1",
+        "spatie/laravel-medialibrary": "^7.14"
     },
     "autoload": {
         "psr-4": {

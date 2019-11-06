@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\Text;
+use DmitryBubyakin\NovaMedialibraryField\Fields\Medialibrary;
 use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate as NovaMailTemplateModel;
 
 class NovaMailTemplate extends Resource
@@ -24,6 +25,26 @@ class NovaMailTemplate extends Resource
      * @var string
      */
     public static $title = 'name';
+
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return __('Mail Templates');
+    }
+
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return __('Mail Template');
+    }
 
     /**
      * The columns that should be searched.
@@ -44,9 +65,13 @@ class NovaMailTemplate extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('name'),
-            Text::make('subject'),
-            Code::make('content')->language('markdown')->hideFromIndex(),
+            Text::make(__('Name'), 'name'),
+            
+            Text::make(__('Subject'), 'subject'),
+
+            Code::make(__('Content'), 'content')->language('markdown')->hideFromIndex(),
+
+            Medialibrary::make(__('Attachments'), 'mail-templates')->hideFromIndex(),
         ];
     }
 
@@ -96,16 +121,6 @@ class NovaMailTemplate extends Resource
     public function actions(Request $request)
     {
         return [];
-    }
-
-    /**
-     * Get the displayable label of the resource.
-     *
-     * @return string
-     */
-    public static function label()
-    {
-        return Str::plural('Mail Template');
     }
 
     /**

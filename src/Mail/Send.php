@@ -68,7 +68,23 @@ class Send extends Mailable implements ShouldQueue
      */
     public function deliver()
     {
-        $this->precompile()->disseminate()->record()->cleanup();
+        $this->precompile()->handleAttachments()->disseminate()->record()->cleanup();
+
+        return $this;
+    }
+
+    /**
+     *  Handle attachments.
+     *
+     * @return $this
+     */
+    private function handleAttachments()
+    {
+        if ($this->mailTemplate->hasMedia('mail-templates')) {
+            foreach ($this->mailTemplate->getMedia('mail-templates') as $attachment) {
+                $this->attach($attachment->getFullUrl());
+            }
+        }
 
         return $this;
     }
