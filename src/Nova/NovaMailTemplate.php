@@ -56,6 +56,33 @@ class NovaMailTemplate extends Resource
     ];
 
     /**
+     * Get the logical group associated with the resource.
+     *
+     * @return string
+     */
+    public static function group()
+    {
+        return __('System');
+    }
+
+    /**
+     * Show the sub-group.
+     *
+     * @return bool
+     */
+    public static $showSubGroup = true;
+
+    /**
+     * Get the logical sub-group associated with the resource.
+     *
+     * @return string
+     */
+    public static function subGroup()
+    {
+        return __('Mail');
+    }
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Illuminate\Http\Request  $request
