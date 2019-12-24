@@ -14,7 +14,9 @@ use KirschbaumDevelopment\NovaMail\SendMail as SendMailField;
 
 class SendMail extends Action
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
+    use InteractsWithQueue;
 
     /**
      * Perform the action on the given models.

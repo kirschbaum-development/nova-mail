@@ -27,22 +27,6 @@ class NovaSentMail extends Model
         'mailTemplate',
     ];
 
-
-
-    /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($mail) {
-            $mail->sender_id = auth()->id();
-        });
-    }
-
     /**
      * Get the mail's mailable.
      *
@@ -82,5 +66,19 @@ class NovaSentMail extends Model
     {
         $value = $value instanceof NovaMailTemplate ? $value->id : $value;
         $this->attributes['mail_template_id'] = $value;
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($mail) {
+            $mail->sender_id = auth()->id();
+        });
     }
 }

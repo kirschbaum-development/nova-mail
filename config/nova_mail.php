@@ -67,6 +67,6 @@ return [
     |       implement the abstract method getEmailField.
     ]
     */
-    
+
     'eventables' => [],
 ];
