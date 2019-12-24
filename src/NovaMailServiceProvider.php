@@ -56,7 +56,10 @@ class NovaMailServiceProvider extends ServiceProvider
             __DIR__ . '/../config/nova_mail.php' => config_path('nova_mail.php'),
         ]);
 
-        $this->loadViewsFrom(Storage::disk(config('nova_mail.compiled_mail_disk'))->path(config('nova_mail.compiled_mail_path')), 'nova-mail');
+        $this->loadViewsFrom(
+            Storage::disk(config('nova_mail.compiled_mail_disk'))->path(config('nova_mail.compiled_mail_path')),
+            'nova-mail'
+        );
     }
 
     /**
@@ -106,7 +109,7 @@ class NovaMailServiceProvider extends ServiceProvider
             $this->routes();
         });
 
-        Nova::serving(function (ServingNova $event) {
+        Nova::serving(function () {
             Nova::script('send-mail', __DIR__ . '/../dist/js/fields.js');
             Nova::style('send-mail', __DIR__ . '/../dist/css/fields.css');
         });
