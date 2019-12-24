@@ -41,8 +41,13 @@ class Send extends Mailable implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Model $model, NovaMailTemplate $mailTemplate, string $content, string $to, string $subject)
-    {
+    public function __construct(
+        Model $model,
+        NovaMailTemplate $mailTemplate,
+        string $content,
+        string $to,
+        string $subject
+    ) {
         $this->model = $model;
         $this->mailTemplate = $mailTemplate;
         $this->content = $content;
@@ -164,6 +169,12 @@ class Send extends Mailable implements ShouldQueue
      */
     private function filename(string $append = null)
     {
-        return sprintf('%s_%d_%s%s', $this->timestamp, $this->model->id, strtolower(class_basename($this->model)), $append ? '_' . $append : '');
+        return sprintf(
+            '%s_%d_%s%s',
+            $this->timestamp,
+            $this->model->id,
+            strtolower(class_basename($this->model)),
+            $append ? '_' . $append : ''
+        );
     }
 }
