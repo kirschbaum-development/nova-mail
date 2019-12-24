@@ -30,7 +30,7 @@ trait Mailable
                                     ? filter_var($event->value, FILTER_VALIDATE_BOOLEAN)
                                     : $event->value;
 
-                                if (! $event->value || $model->{$event->column} == $value) {
+                                if (is_null($event->value) || $model->{$event->column} === $value) {
                                     $model->sendMailTemplate($novaMailTemplate);
                                 }
                             }
