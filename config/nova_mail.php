@@ -46,6 +46,7 @@ return [
     | are displayed in the Nova navigation menu.
     |
     */
+
     'show_resources' => [
         'nova_sent_mail' => true,
         'nova_mail_template' => true,
@@ -66,5 +67,6 @@ return [
     |       implement the abstract method getEmailField.
     ]
     */
+    
     'eventables' => [],
 ];
