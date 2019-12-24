@@ -8,12 +8,11 @@ use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use KirschbaumDevelopment\NovaMail\Traits\Mailable;
 use KirschbaumDevelopment\NovaMail\Nova\NovaSentMail;
+use KirschbaumDevelopment\NovaMail\Support\Eventable;
 use KirschbaumDevelopment\NovaMail\Nova\NovaMailEvent;
 use KirschbaumDevelopment\NovaMail\Nova\NovaMailTemplate;
 use KirschbaumDevelopment\NovaMail\Policies\NovaSentMailPolicy;
-use KirschbaumDevelopment\NovaMail\Exceptions\EventableMissingTrait;
 use KirschbaumDevelopment\NovaMail\Observers\NovaMailTemplateObserver;
 use KirschbaumDevelopment\NovaMail\Models\NovaSentMail as NovaSentMailModel;
 use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate as NovaMailTemplateModel;
@@ -32,7 +31,8 @@ class NovaMailServiceProvider extends ServiceProvider
         $this->observers();
         $this->policies();
         $this->nova();
-        $this->ensureEventablesAreMailable();
+
+        Eventable::discoverModels();
     }
 
     /**
@@ -112,21 +112,6 @@ class NovaMailServiceProvider extends ServiceProvider
         Nova::serving(function () {
             Nova::script('send-mail', __DIR__ . '/../dist/js/fields.js');
             Nova::style('send-mail', __DIR__ . '/../dist/css/fields.css');
-        });
-    }
-
-    /**
-     * Ensure configured Eventables use Mailable trait.
-     *
-     * @return void
-     */
-    protected function ensureEventablesAreMailable()
-    {
-        collect(config('nova_mail.eventables'))->each(function ($eventable) {
-            throw_unless(
-                collect(class_uses_recursive($eventable))->contains(Mailable::class),
-                (new EventableMissingTrait)->setEventable($eventable)
-            );
         });
     }
 

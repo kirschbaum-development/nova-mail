@@ -3,6 +3,7 @@
 namespace KirschbaumDevelopment\NovaMail\Traits;
 
 use KirschbaumDevelopment\NovaMail\Mail\Send;
+use KirschbaumDevelopment\NovaMail\Support\Eventable;
 use KirschbaumDevelopment\NovaMail\Models\NovaSentMail;
 use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate;
 
@@ -20,7 +21,7 @@ trait Mailable
         })->each(function (NovaMailTemplate $novaMailTemplate) {
             $novaMailTemplate->events
                 ->filter(function ($event) {
-                    return collect(config('nova_mail.eventables'))->contains($event->model);
+                    return Eventable::hasModel($event->model);
                 })
                 ->each(function ($event) use ($novaMailTemplate) {
                     if ($event->column) {
@@ -72,6 +73,7 @@ trait Mailable
             $this->{$this->getEmailField()},
             $novaMailTemplate->subject
         );
+
         $mailable->deliver();
     }
 
@@ -123,7 +125,14 @@ trait Mailable
      */
     protected function rejectableEvent($event)
     {
-        return in_array($event, ['retrieved', 'creating', 'saving', 'replicating', 'deleted', 'forceDeleted']);
+        return in_array($event, [
+            'retrieved',
+            'creating',
+            'saving',
+            'replicating',
+            'deleted',
+            'forceDeleted'
+        ]);
     }
 
     /**

@@ -55,18 +55,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Classes for dynamic event/column listening
+    | Model Paths for Eventing
     |--------------------------------------------------------------------------
     |
-    | Here you can specify which classes can have dynamic
-    | listeners for sending Nova Mail Templates.
+    | Here you can specific paths relative to your main app directory. Two
+    | defaults are already set as 'app' and 'app/Models'. If your model
+    | classes exist in a different directory, you can load them here.
     |
-    | Ex: [User::class]
-    |
-    | Note: These classes must use the Mailable trait and
-    |       implement the abstract method getEmailField.
+    | Example: ['MyModels'] will be resolved as "app/MyModels/"
     ]
     */
 
-    'eventables' => [],
+    'model_paths' => [],
 ];
