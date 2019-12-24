@@ -46,9 +46,16 @@ class NovaMailTemplate extends Resource
     {
         return [
             Text::make('Name'),
+
             Text::make('Subject'),
-            Code::make('Content')->language('markdown')->hideFromIndex(),
-            Events::make('Events')->hideWhenCreating()->help('Targeting a specific column is only available on the "Updated" event.'),
+
+            Code::make('Content')
+                ->language('markdown')
+                ->hideFromIndex(),
+
+            Events::make('Events')
+                ->hideWhenCreating()
+                ->help('Targeting a specific column is only available on the "Updated" event.'),
         ];
     }
 

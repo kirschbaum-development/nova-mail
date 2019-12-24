@@ -38,14 +38,15 @@ class Events extends Field
      */
     protected function addEventablesToMeta()
     {
-        $eventables = collect(config('nova_mail.eventables'))->map(function ($class) {
-            return [
-                'label' => $class,
-                'value' => $class,
-                'events' => $this->getModelEvents($class),
-                'columns' => $this->getModelColumns($class),
-            ];
-        });
+        $eventables = collect(config('nova_mail.eventables'))
+            ->map(function ($class) {
+                return [
+                    'label' => $class,
+                    'value' => $class,
+                    'events' => $this->getModelEvents($class),
+                    'columns' => $this->getModelColumns($class),
+                ];
+            });
 
         $this->withMeta([
             'eventables' => $eventables->values()->all(),
@@ -59,17 +60,19 @@ class Events extends Field
      */
     protected function setFillCallback()
     {
-        $this->fillUsing(function (NovaRequest $request, $requestAttribute, $model, $attribute) {
-            $events = collect(json_decode($request->events, true))->map(function ($event) use ($requestAttribute, $model) {
-                return $requestAttribute->{$model}()->updateOrCreate([
-                    'id' => data_get($event, 'id'),
-                ], [
-                    'model' => data_get($event, 'model'),
-                    'name' => data_get($event, 'name'),
-                    'column' => data_get($event, 'column'),
-                    'value' => data_get($event, 'anyValue') ? null : $event['value'],
-                ]);
-            });
+        $this->fillUsing(function (NovaRequest $request, $requestAttribute, $model) {
+            $events = collect(json_decode($request->events, true))
+                ->map(function ($event) use ($requestAttribute, $model) {
+                    return $requestAttribute->{$model}()->updateOrCreate([
+                        'id' => data_get($event, 'id'),
+                    ], [
+                        'model' => data_get($event, 'model'),
+                        'name' => data_get($event, 'name'),
+                        'column' => data_get($event, 'column'),
+                        'value' => data_get($event, 'anyValue') ? null : $event['value'],
+                    ]);
+                });
+
             $requestAttribute->{$model}()->whereNotIn('id', $events->pluck('id'))->get()->each->delete();
         });
     }

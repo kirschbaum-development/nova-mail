@@ -26,18 +26,22 @@ trait Mailable
                     if ($event->column) {
                         $event->model::updated(function ($model) use ($novaMailTemplate, $event) {
                             if ($model->isDirty($event->column)) {
-                                $value = is_bool($model->{$event->column}) ? filter_var($event->value, FILTER_VALIDATE_BOOLEAN) : $event->value;
+                                $value = is_bool($model->{$event->column})
+                                    ? filter_var($event->value, FILTER_VALIDATE_BOOLEAN)
+                                    : $event->value;
 
                                 if (! $event->value || $model->{$event->column} == $value) {
                                     $model->sendMailTemplate($novaMailTemplate);
                                 }
                             }
                         });
-                    } else {
-                        $event->model::{$event->name}(function ($model) use ($novaMailTemplate) {
-                            $model->sendMailTemplate($novaMailTemplate);
-                        });
+
+                        return;
                     }
+
+                    $event->model::{$event->name}(function ($model) use ($novaMailTemplate) {
+                        $model->sendMailTemplate($novaMailTemplate);
+                    });
                 });
         });
     }
