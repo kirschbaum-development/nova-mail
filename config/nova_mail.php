@@ -55,16 +55,32 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Model Paths for Eventing
+    | Model Paths for Eventing Auto-discover
     |--------------------------------------------------------------------------
     |
     | Here you can specific paths relative to your main app directory. Two
     | defaults are already set as 'app' and 'app/Models'. If your model
     | classes exist in a different directory, you can load them here.
     |
-    | Example: ['MyModels'] will be resolved as "app/MyModels/"
+    | Example: ['app/MyModels']
     ]
     */
 
     'model_paths' => [],
+    'excluded_paths' => [],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Excluded Models from Auto-discover
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify certain models that you may not want discovered
+    | in the auto-discover paths. Occasionally a model will need to use
+    | the Mailable trait, but the mail must be sent manually instead.
+    |
+    | Example: [App\User::class]
+    ]
+    */
+
+    'excluded_models' => [],
 ];
