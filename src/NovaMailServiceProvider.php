@@ -4,7 +4,6 @@ namespace KirschbaumDevelopment\NovaMail;
 
 use Laravel\Nova\Nova;
 use Illuminate\Support\Facades\Gate;
-use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;

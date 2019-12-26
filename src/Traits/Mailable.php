@@ -131,7 +131,7 @@ trait Mailable
             'saving',
             'replicating',
             'deleted',
-            'forceDeleted'
+            'forceDeleted',
         ]);
     }
 

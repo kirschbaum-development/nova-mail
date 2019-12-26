@@ -11,7 +11,7 @@ class Eventable
 {
     /**
      * Default auto-discover paths.
-     * 
+     *
      * @var array
      */
     private static $defaultPaths = [
@@ -34,7 +34,7 @@ class Eventable
     public static function discoverModels()
     {
         self::getFiles(self::directories())
-            ->each(function($model) {
+            ->each(function ($model) {
                 $model = self::getFullyQualifiedNamespace($model->getContents());
 
                 if (is_subclass_of($model, Model::class)
