@@ -62,7 +62,7 @@ class Events extends Field
     {
         $this->fillUsing(function (NovaRequest $request, $requestAttribute, $model) {
             $events = collect(json_decode($request->events, true))
-                ->map(function ($event) use ($requestAttribute, $model) {
+                ->map(function ($event) use ($requestAttribute, $model, $request) {
                     return $requestAttribute->{$model}()->updateOrCreate([
                         'id' => data_get($event, 'id'),
                     ], [
@@ -70,6 +70,7 @@ class Events extends Field
                         'name' => data_get($event, 'name'),
                         'column' => data_get($event, 'column'),
                         'value' => data_get($event, 'anyValue') ? null : $event['value'],
+                        'user_id' => $request->user()->id,
                     ]);
                 });
 

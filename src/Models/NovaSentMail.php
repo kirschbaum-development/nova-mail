@@ -13,6 +13,7 @@ class NovaSentMail extends Model
      */
     protected $fillable = [
         'mail_template_id',
+        'mail_event_id',
         'subject',
         'content',
     ];
@@ -25,6 +26,7 @@ class NovaSentMail extends Model
     protected $with = [
         'mailable',
         'mailTemplate',
+        'mailEvent',
     ];
 
     /**
@@ -56,6 +58,16 @@ class NovaSentMail extends Model
     }
 
     /**
+     * Get the sent mail triggering mail event.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function mailEvent()
+    {
+        return $this->belongsTo(NovaMailEvent::class);
+    }
+
+    /**
      * Set the mail's mail template attribute.
      *
      * @param NovaMailTemplate|int $value
@@ -69,6 +81,19 @@ class NovaSentMail extends Model
     }
 
     /**
+     * Set the mail's mail event attribute.
+     *
+     * @param NovaMailEvent|int $value
+     *
+     * @return void
+     */
+    public function setMailEventAttribute($value)
+    {
+        $value = $value instanceof NovaMailEvent ? $value->id : $value;
+        $this->attributes['mail_event_id'] = $value;
+    }
+
+    /**
      * The "booting" method of the model.
      *
      * @return void
@@ -76,9 +101,11 @@ class NovaSentMail extends Model
     protected static function boot()
     {
         parent::boot();
-
-        static::creating(function ($mail) {
-            $mail->sender_id = auth()->id();
+        static::created(function ($mail) {
+            dump($mail->mailEvent);
+            $mail->sender_id = auth()->id()
+                ?? optional($mail->mailEvent)->user_id
+                ?? $mail->mailTemplate->user_id;
         });
     }
 }

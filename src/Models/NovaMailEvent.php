@@ -16,6 +16,7 @@ class NovaMailEvent extends Model
         'name',
         'column',
         'value',
+        'user_id'
     ];
 
     /**
@@ -26,5 +27,19 @@ class NovaMailEvent extends Model
     public function mailTemplate()
     {
         return $this->belongsTo(NovaMailTemplate::class);
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($event) {
+            $event->user_id = auth()->id();
+        });
     }
 }

@@ -31,7 +31,7 @@ trait Mailable
                                     : $event->value;
 
                                 if (is_null($event->value) || $model->{$event->column} === $value) {
-                                    $model->sendMailTemplate($novaMailTemplate);
+                                    $model->sendMailTemplate($novaMailTemplate, $event);
                                 }
                             }
                         });
@@ -39,8 +39,8 @@ trait Mailable
                         return;
                     }
 
-                    $event->model::{$event->name}(function ($model) use ($novaMailTemplate) {
-                        $model->sendMailTemplate($novaMailTemplate);
+                    $event->model::{$event->name}(function ($model) use ($novaMailTemplate, $event) {
+                        $model->sendMailTemplate($novaMailTemplate, $event);
                     });
                 });
         });
