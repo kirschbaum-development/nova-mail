@@ -41,6 +41,12 @@ class Send extends Mailable implements ShouldQueue
      * @var NovaMailEvent|null
      */
     public $mailEvent;
+
+    /**
+     * @var int
+     */
+    public $sendDelayInMinutes = 0;
+
     /**
      * Create a new message instance.
      *
@@ -52,7 +58,8 @@ class Send extends Mailable implements ShouldQueue
         string $content,
         string $to,
         string $subject,
-        $mailEvent = null
+        $mailEvent = null,
+        $sendDelayInMinutes = 0
     ) {
         $this->model = $model;
         $this->mailTemplate = $mailTemplate;
@@ -62,6 +69,7 @@ class Send extends Mailable implements ShouldQueue
         $this->subject($subject);
         $this->mailEvent = $mailEvent;
         $this->timestamp = now()->format('Y_m_d_His');
+        $this->sendDelayInMinutes = $sendDelayInMinutes;
     }
 
     /**
@@ -108,7 +116,7 @@ class Send extends Mailable implements ShouldQueue
      */
     private function disseminate()
     {
-        Mail::send($this);
+        Mail::later(now()->addMinutes($this->sendDelayInMinutes), $this);
 
         return $this;
     }
@@ -125,6 +133,7 @@ class Send extends Mailable implements ShouldQueue
             'subject' => $this->subject,
             'content' => $this->render(),
             'mail_event_id' => $this->mailEvent ? $this->mailEvent->id : null,
+            'send_delay_in_minutes' => $this->sendDelayInMinutes,
         ]);
 
         return $this;

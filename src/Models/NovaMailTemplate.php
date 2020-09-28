@@ -16,6 +16,7 @@ class NovaMailTemplate extends Model
         'subject',
         'content',
         'user_id',
+        'send_delay_in_minutes'
     ];
 
     /**

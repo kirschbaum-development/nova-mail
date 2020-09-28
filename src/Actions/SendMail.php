@@ -29,14 +29,16 @@ class SendMail extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $mailOptions = json_decode($fields['mail'], true);
-
+        dump($fields);
         $models->each(function ($model) use ($mailOptions) {
             $mailable = new Send(
                 $model,
                 NovaMailTemplate::findOrFail($mailOptions['selectedTemplate']['id']),
                 $mailOptions['body'],
                 $model->{$model->getEmailField()},
-                $mailOptions['subject']
+                $mailOptions['subject'],
+                null,
+                $mailOptions['send_delay_in_minutes']
             );
             $mailable->deliver();
         });

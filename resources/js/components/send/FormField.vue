@@ -37,6 +37,16 @@
             class="w-full form-control form-input form-input-bordered"
           />
 
+          <input
+              name="delay-override"
+              id="delay-override"
+              dusk="delay-override"
+              type="number"
+              v-model="delayInMinutes"
+              placeholder="Send Delay (in minutes)"
+              class="w-full form-control form-input form-input-bordered mt-4"
+          />
+
           <textarea
             name="template_override"
             id="template-override"
@@ -65,6 +75,7 @@ export default {
       selectedTemplate: '',
       body: '',
       subject: '',
+      delayInMinutes: 0
     }
   },
 
@@ -84,6 +95,7 @@ export default {
         body: this.body,
         resourceId: this.resourceId,
         resourceName: this.resourceName,
+        send_delay_in_minutes: this.delayInMinutes,
         selectedTemplate: this.selectedTemplate,
       });
     },
@@ -101,6 +113,7 @@ export default {
     selectedTemplate(newValue, oldValue) {
       this.subject = newValue.subject;
       this.body = newValue.content;
+      this.delayInMinutes = newValue.send_delay_in_minutes;
       this.handleAnyFieldChange();
     }
   },

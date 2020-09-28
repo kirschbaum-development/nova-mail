@@ -6,6 +6,7 @@ use App\Nova\User;
 use Laravel\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Textarea;
@@ -57,6 +58,7 @@ class NovaSentMail extends Resource
                     return trim(strip_tags($content));
                 })
                 ->alwaysShow(),
+            Number::make('Send Delay', 'send_delay_in_minutes'),
             DateTime::make('Sent At', 'created_at')->format('M/d/Y h:mm:ss a'),
         ];
     }
