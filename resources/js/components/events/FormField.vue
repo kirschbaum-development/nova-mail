@@ -76,7 +76,7 @@
     <template v-else slot="field">
       <div
         class="text-80 italic pt-2"
-      >To send Mail Templates on a Model event - please update your "nova_mail" config!</div>
+      >To send Mail Templates on a model event, add the Mailable trait to a model!</div>
     </template>
   </default-field>
 </template>

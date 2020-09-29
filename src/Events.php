@@ -4,6 +4,7 @@ namespace KirschbaumDevelopment\NovaMail;
 
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use KirschbaumDevelopment\NovaMail\Support\Eventable;
 
 class Events extends Field
 {
@@ -38,7 +39,7 @@ class Events extends Field
      */
     protected function addEventablesToMeta()
     {
-        $eventables = collect(config('nova_mail.eventables'))
+        $eventables = collect(Eventable::models())
             ->map(function ($class) {
                 return [
                     'label' => $class,
