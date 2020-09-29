@@ -101,7 +101,7 @@ class NovaSentMail extends Model
     protected static function boot()
     {
         parent::boot();
-        static::created(function ($mail) {
+        static::creating(function ($mail) {
             $mail->sender_id = auth()->id()
                 ?? optional($mail->mailEvent)->user_id
                 ?? $mail->mailTemplate->user_id;

@@ -26,7 +26,7 @@ class AddUserIdColumnToNovaMailTemplatesTable extends Migration
     public function down()
     {
         Schema::table('nova_mail_templates', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id');
         });
     }
 }

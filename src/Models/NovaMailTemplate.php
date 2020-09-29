@@ -48,8 +48,8 @@ class NovaMailTemplate extends Model
     {
         parent::boot();
 
-        static::creating(function ($event) {
-            $event->user_id = auth()->id();
+        static::creating(function ($template) {
+            $template->user_id = auth()->id();
         });
     }
 }
