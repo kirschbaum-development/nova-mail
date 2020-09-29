@@ -26,7 +26,7 @@ class AddSendDelayInMinutesColumnToNovaSentMailsTable extends Migration
     public function down()
     {
         Schema::table('nova_sent_mails', function (Blueprint $table) {
-            $table->dropColumn('send_delay_in_minutes')->default(0);
+            $table->dropColumn('send_delay_in_minutes');
         });
     }
 }
