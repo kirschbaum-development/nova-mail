@@ -70,7 +70,9 @@ trait Mailable
             $novaMailTemplate,
             $novaMailTemplate->content,
             $this->{$this->getEmailField()},
-            $novaMailTemplate->subject
+            $novaMailTemplate->subject,
+            null,
+            $novaMailTemplate->send_delay_in_minutes
         );
         $mailable->deliver();
     }

@@ -6,6 +6,7 @@ use App\Nova\User;
 use Laravel\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Textarea;

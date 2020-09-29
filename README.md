@@ -18,6 +18,8 @@ This package contains a Nova action that provides a mail sending form for any re
 
 This Nova package requires Nova 2.0 or higher.
 
+Using the mail delay feature requires a queue driver other than sync. If you are using the Amazon SQS queue service, the maximum delay time is 15 minutes.
+
 ## Installation
 
 You can install this package in a Laravel app that uses [Nova](https://nova.laravel.com) via composer:
@@ -94,9 +96,11 @@ class User extends Resource
 
 Now you can send emails from the action called "Send Mail" on your resource!
 
+You can also delay any outgoing email by setting the delay in minutes property on the template. Like subject and body, you can override the mail delay specified in the template when you send mail.
+
 ### Trigger Mail on Model Events
 
-A `MailTemplate` can be configured to respond to Eloquent Model events or a value change of a specified column. For example, a mail template informing your users of their account status could be sent when the `active` column on your `User` model is updated:
+A `MailTemplate` can be configured to respond to Eloquent Model events, or a value change of a specified column. For example, a mail template informing your users of their account status could be sent when the `active` column on your `User` model is updated:
 
 ![screenshot of the account status mail template](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/model-event-account-status-change.png)
 
@@ -172,6 +176,7 @@ If you discover any security related issues, please email adam@kirschbaumdevelop
 - [Adam Parker](https://github.com/adammparker)
 - [Brandon Ferens](https://github.com/brandonferens)
 - [Justin Seliga](https://github.com/jrseliga)
+- [Belisar Hoxholli](https://github.com/belisarh)
 
 ## Sponsorship
 
