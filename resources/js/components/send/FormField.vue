@@ -38,9 +38,9 @@
           />
 
           <input
-              name="delay-override"
-              id="delay-override"
-              dusk="delay-override"
+              name="send-delay-in-minutes"
+              id="send-delay-in-minutes"
+              dusk="send-delay-in-minutes"
               type="number"
               v-model="delayInMinutes"
               placeholder="Send Delay (in minutes)"
@@ -75,7 +75,7 @@ export default {
       selectedTemplate: '',
       body: '',
       subject: '',
-      delayInMinutes: 0
+      delayInMinutes: null
     }
   },
 
@@ -84,7 +84,7 @@ export default {
      * Catch-all for any field update.
      */
     handleAnyFieldChange() {
-      this.handleChange(this.mailFields);
+      this.value = this.mailFields;
     },
   },
 
@@ -107,6 +107,10 @@ export default {
     },
 
     body(newValue, oldValue) {
+      this.handleAnyFieldChange();
+    },
+
+    delayInMinutes(newValue, oldValue) {
       this.handleAnyFieldChange();
     },
 

@@ -102,7 +102,6 @@ class NovaSentMail extends Model
     {
         parent::boot();
         static::created(function ($mail) {
-            dump($mail->mailEvent);
             $mail->sender_id = auth()->id()
                 ?? optional($mail->mailEvent)->user_id
                 ?? $mail->mailTemplate->user_id;

@@ -54,7 +54,7 @@ class NovaMailTemplate extends Resource
                 ->language('markdown')
                 ->hideFromIndex(),
 
-            Number::make('Send Delay', 'send_delay_in_minutes'),
+            Number::make('Send delay (minutes)', 'send_delay_in_minutes'),
 
             Events::make('Events')
                 ->hideWhenCreating()

@@ -29,7 +29,6 @@ class SendMail extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $mailOptions = json_decode($fields['mail'], true);
-        dump($fields);
         $models->each(function ($model) use ($mailOptions) {
             $mailable = new Send(
                 $model,
