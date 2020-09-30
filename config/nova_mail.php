@@ -27,18 +27,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Keep Compiled File
-    |--------------------------------------------------------------------------
-    |
-    | This deterimines if the compiled blade file used for sending the mail
-    | is kept on the file system after the mail has been delivered.
-    |
-    */
-
-    'keep_compiled_file' => false,
-
-    /*
-    |--------------------------------------------------------------------------
     | Show Resources
     |--------------------------------------------------------------------------
     |

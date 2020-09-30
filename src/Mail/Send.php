@@ -146,10 +146,6 @@ class Send extends Mailable implements ShouldQueue
      */
     private function cleanup()
     {
-        if (! config('nova_mail.keep_compiled_file')) {
-            Storage::disk($this->disk())->delete($this->path());
-        }
-
         Storage::disk($this->disk())->delete($this->path('subject'));
 
         return $this;
