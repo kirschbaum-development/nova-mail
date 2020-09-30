@@ -116,7 +116,7 @@ class Send extends Mailable implements ShouldQueue
      */
     private function disseminate()
     {
-        Mail::later(now()->addMinutes($this->sendDelayInMinutes), $this);
+        Mail::later(now()->addMinutes((int) $this->sendDelayInMinutes), $this);
 
         return $this;
     }
