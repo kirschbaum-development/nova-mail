@@ -37,6 +37,16 @@
             class="w-full form-control form-input form-input-bordered"
           />
 
+          <input
+              name="send-delay-in-minutes"
+              id="send-delay-in-minutes"
+              dusk="send-delay-in-minutes"
+              type="number"
+              v-model="delayInMinutes"
+              placeholder="Send Delay (in minutes)"
+              class="w-full form-control form-input form-input-bordered mt-4"
+          />
+
           <textarea
             name="template_override"
             id="template-override"
@@ -54,8 +64,8 @@
 
 <script>
 import { FormField, HandlesValidationErrors } from 'laravel-nova'
-import Init from '../mixins/Init';
-import InteractsWithTemplates from '../mixins/InteractsWithTemplates';
+import Init from '../../mixins/Init';
+import InteractsWithTemplates from '../../mixins/InteractsWithTemplates';
 
 export default {
   mixins: [FormField, HandlesValidationErrors, InteractsWithTemplates],
@@ -65,6 +75,7 @@ export default {
       selectedTemplate: '',
       body: '',
       subject: '',
+      delayInMinutes: null
     }
   },
 
@@ -73,7 +84,7 @@ export default {
      * Catch-all for any field update.
      */
     handleAnyFieldChange() {
-      this.handleChange(this.mailFields);
+      this.value = this.mailFields;
     },
   },
 
@@ -84,6 +95,7 @@ export default {
         body: this.body,
         resourceId: this.resourceId,
         resourceName: this.resourceName,
+        send_delay_in_minutes: this.delayInMinutes,
         selectedTemplate: this.selectedTemplate,
       });
     },
@@ -98,9 +110,14 @@ export default {
       this.handleAnyFieldChange();
     },
 
+    delayInMinutes(newValue, oldValue) {
+      this.handleAnyFieldChange();
+    },
+
     selectedTemplate(newValue, oldValue) {
       this.subject = newValue.subject;
       this.body = newValue.content;
+      this.delayInMinutes = newValue.send_delay_in_minutes;
       this.handleAnyFieldChange();
     }
   },

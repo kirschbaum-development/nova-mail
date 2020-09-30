@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Number;
+use KirschbaumDevelopment\NovaMail\Events;
 use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate as NovaMailTemplateModel;
 
 class NovaMailTemplate extends Resource
@@ -44,9 +46,19 @@ class NovaMailTemplate extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('name'),
-            Text::make('subject'),
-            Code::make('content')->language('markdown')->hideFromIndex(),
+            Text::make('Name'),
+
+            Text::make('Subject'),
+
+            Code::make('Content')
+                ->language('markdown')
+                ->hideFromIndex(),
+
+            Number::make('Send delay (minutes)', 'send_delay_in_minutes'),
+
+            Events::make('Events')
+                ->hideWhenCreating()
+                ->help('Targeting a specific column is only available on the "Updated" event.'),
         ];
     }
 
@@ -109,12 +121,12 @@ class NovaMailTemplate extends Resource
     }
 
     /**
-    * Determine if this resource is available for navigation.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    *
-    * @return bool
-    */
+     * Determine if this resource is available for navigation.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return bool
+     */
     public static function availableForNavigation(Request $request)
     {
         return config('nova_mail.show_resources.nova_mail_template');

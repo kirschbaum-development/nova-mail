@@ -8,10 +8,15 @@ use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
+use KirschbaumDevelopment\NovaMail\Traits\Mailable;
 use KirschbaumDevelopment\NovaMail\Nova\NovaSentMail;
+use KirschbaumDevelopment\NovaMail\Nova\NovaMailEvent;
 use KirschbaumDevelopment\NovaMail\Nova\NovaMailTemplate;
 use KirschbaumDevelopment\NovaMail\Policies\NovaSentMailPolicy;
+use KirschbaumDevelopment\NovaMail\Exceptions\EventableMissingTrait;
+use KirschbaumDevelopment\NovaMail\Observers\NovaMailTemplateObserver;
 use KirschbaumDevelopment\NovaMail\Models\NovaSentMail as NovaSentMailModel;
+use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate as NovaMailTemplateModel;
 
 class NovaMailServiceProvider extends ServiceProvider
 {
@@ -24,8 +29,10 @@ class NovaMailServiceProvider extends ServiceProvider
     {
         $this->config();
         $this->migrations();
+        $this->observers();
         $this->policies();
         $this->nova();
+        $this->ensureEventablesAreMailable();
     }
 
     /**
@@ -38,29 +45,63 @@ class NovaMailServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/nova_mail.php', 'nova_mail');
     }
 
+    /**
+     * Publish config, load views.
+     *
+     * @return void
+     */
     protected function config()
     {
         $this->publishes([
             __DIR__ . '/../config/nova_mail.php' => config_path('nova_mail.php'),
         ]);
 
-        $this->loadViewsFrom(Storage::disk(config('nova_mail.compiled_mail_disk'))->path(config('nova_mail.compiled_mail_path')), 'nova-mail');
+        $this->loadViewsFrom(
+            Storage::disk(config('nova_mail.compiled_mail_disk'))->path(config('nova_mail.compiled_mail_path')),
+            'nova-mail'
+        );
     }
 
+    /**
+     * Load migrations.
+     *
+     * @return void
+     */
     protected function migrations()
     {
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
     }
 
+    /**
+     * Register observers.
+     *
+     * @return void
+     */
+    protected function observers()
+    {
+        NovaMailTemplateModel::observe(NovaMailTemplateObserver::class);
+    }
+
+    /**
+     * Set up policies.
+     *
+     * @return void
+     */
     protected function policies()
     {
         Gate::policy(NovaSentMailModel::class, NovaSentMailPolicy::class);
     }
 
+    /**
+     * Setup resources and routes.
+     *
+     * @return void
+     */
     protected function nova()
     {
         Nova::resources([
             NovaSentMail::class,
+            NovaMailEvent::class,
             NovaMailTemplate::class,
         ]);
 
@@ -68,14 +109,29 @@ class NovaMailServiceProvider extends ServiceProvider
             $this->routes();
         });
 
-        Nova::serving(function (ServingNova $event) {
-            Nova::script('SendMail', __DIR__ . '/../dist/js/field.js');
-            Nova::style('SendMail', __DIR__ . '/../dist/css/field.css');
+        Nova::serving(function () {
+            Nova::script('send-mail', __DIR__ . '/../dist/js/fields.js');
+            Nova::style('send-mail', __DIR__ . '/../dist/css/fields.css');
         });
     }
 
     /**
-     * Register the package's routes.
+     * Ensure configured Eventables use Mailable trait.
+     *
+     * @return void
+     */
+    protected function ensureEventablesAreMailable()
+    {
+        collect(config('nova_mail.eventables'))->each(function ($eventable) {
+            throw_unless(
+                collect(class_uses_recursive($eventable))->contains(Mailable::class),
+                (new EventableMissingTrait)->setEventable($eventable)
+            );
+        });
+    }
+
+    /**
+     * Register routes.
      *
      * @return void
      */

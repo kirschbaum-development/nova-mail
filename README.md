@@ -1,10 +1,10 @@
 ![banner](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/banner.png)
-# An action based mail package for Nova apps
+# Nova Mail
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/kirschbaum-development/nova-mail.svg?style=flat-square)](https://packagist.org/packages/kirschbaum-development/nova-mail)
 [![Total Downloads](https://img.shields.io/packagist/dt/kirschbaum-development/nova-mail.svg?style=flat-square)](https://packagist.org/packages/kirschbaum-development/nova-mail)
 
-This package contains a Nova action that provides a mail sending form for any resource to easily send email.
+This package contains a Nova action that provides a mail sending form for any resource to easily send email. It also includes automated mail sending based on Eloquent Model events/attribute changes.
 
 ![screenshot of the send mail action modal](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/send-mail-modal-empty.png)
 
@@ -12,9 +12,13 @@ This package contains a Nova action that provides a mail sending form for any re
 
 ![screenshot of sent email in mailtrap](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/sent-mail.png)
 
+![screenshot of mail template model events](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/mail-template-model-events.png)
+
 ## Requirements
 
 This Nova package requires Nova 2.0 or higher.
+
+Using the mail delay feature requires a queue driver other than sync. If you are using the Amazon SQS queue service, the maximum delay time is 15 minutes.
 
 ## Installation
 
@@ -92,6 +96,18 @@ class User extends Resource
 
 Now you can send emails from the action called "Send Mail" on your resource!
 
+You can also delay any outgoing email by setting the delay in minutes property on the template. Like subject and body, you can override the mail delay specified in the template when you send mail.
+
+### Trigger Mail on Model Events
+
+A `MailTemplate` can be configured to respond to Eloquent Model events, or a value change of a specified column. For example, a mail template informing your users of their account status could be sent when the `active` column on your `User` model is updated:
+
+![screenshot of the account status mail template](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/model-event-account-status-change.png)
+
+You can even have separate Model Events for both "on" an "off"!
+
+![screenshot of the account status with value mail template](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/model-event-account-status-change.png)
+
 ### Mail Template Usage/Caveats
 
 The `NovaMailTemplate` resource allows you to create re-usable custom templates for sending email. It works by taking your specified template (or over-ridden template content) and building a temporary blade file (the Blade file can be saved permantely via a configuration option). This blade file is then used in the typical Laravel fashion to send the email.
@@ -160,6 +176,7 @@ If you discover any security related issues, please email adam@kirschbaumdevelop
 - [Adam Parker](https://github.com/adammparker)
 - [Brandon Ferens](https://github.com/brandonferens)
 - [Justin Seliga](https://github.com/jrseliga)
+- [Belisar Hoxholli](https://github.com/belisarh)
 
 ## Sponsorship
 

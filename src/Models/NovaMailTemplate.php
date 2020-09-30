@@ -15,6 +15,8 @@ class NovaMailTemplate extends Model
         'name',
         'subject',
         'content',
+        'user_id',
+        'send_delay_in_minutes'
     ];
 
     /**
@@ -25,5 +27,29 @@ class NovaMailTemplate extends Model
     public function mails()
     {
         return $this->hasMany(NovaSentMail::class);
+    }
+
+    /**
+     * Get the mail template's events.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function events()
+    {
+        return $this->hasMany(NovaMailEvent::class, 'mail_template_id');
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($template) {
+            $template->user_id = auth()->id();
+        });
     }
 }

@@ -2,32 +2,28 @@
 
 namespace KirschbaumDevelopment\NovaMail\Nova;
 
-use App\Nova\User;
 use Laravel\Nova\Resource;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\MorphTo;
-use Laravel\Nova\Fields\DateTime;
-use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
-use KirschbaumDevelopment\NovaMail\Models\NovaSentMail as NovaSentMailModel;
+use KirschbaumDevelopment\NovaMail\Models\NovaMailEvent as NovaMailEventModel;
 
-class NovaSentMail extends Resource
+class NovaMailEvent extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = NovaSentMailModel::class;
+    public static $model = NovaMailEventModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'model';
 
     /**
      * The columns that should be searched.
@@ -35,8 +31,9 @@ class NovaSentMail extends Resource
      * @var array
      */
     public static $search = [
-        'subject',
-        'content',
+        'name',
+        'model',
+        'column',
     ];
 
     /**
@@ -49,16 +46,11 @@ class NovaSentMail extends Resource
     public function fields(Request $request)
     {
         return [
-            MorphTo::make('mailable')->hideFromIndex(),
-            BelongsTo::make('Sender', 'sender', User::class),
-            Text::make('Subject'),
             BelongsTo::make('Template', 'mailTemplate', NovaMailTemplate::class),
-            Textarea::make('Content')
-                ->displayUsing(function ($content) {
-                    return trim(strip_tags($content));
-                })
-                ->alwaysShow(),
-            DateTime::make('Sent At', 'created_at')->format('M/d/Y h:mm:ss a'),
+            Text::make('Model'),
+            Text::make('Event Name', 'name'),
+            Text::make('Column'),
+            Text::make('Value'),
         ];
     }
 
@@ -117,7 +109,7 @@ class NovaSentMail extends Resource
      */
     public static function label()
     {
-        return 'Sent Mail';
+        return Str::plural('Mail Event');
     }
 
     /**
@@ -129,6 +121,6 @@ class NovaSentMail extends Resource
      */
     public static function availableForNavigation(Request $request)
     {
-        return config('nova_mail.show_resources.nova_sent_mail');
+        return config('nova_mail.show_resources.nova_mail_event');
     }
 }

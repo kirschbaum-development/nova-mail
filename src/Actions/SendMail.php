@@ -14,7 +14,9 @@ use KirschbaumDevelopment\NovaMail\SendMail as SendMailField;
 
 class SendMail extends Action
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
+    use InteractsWithQueue;
 
     /**
      * Perform the action on the given models.
@@ -27,14 +29,15 @@ class SendMail extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         $mailOptions = json_decode($fields['mail'], true);
-
         $models->each(function ($model) use ($mailOptions) {
             $mailable = new Send(
                 $model,
                 NovaMailTemplate::findOrFail($mailOptions['selectedTemplate']['id']),
                 $mailOptions['body'],
                 $model->{$model->getEmailField()},
-                $mailOptions['subject']
+                $mailOptions['subject'],
+                null,
+                $mailOptions['send_delay_in_minutes']
             );
             $mailable->deliver();
         });
