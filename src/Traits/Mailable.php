@@ -46,7 +46,11 @@ trait Mailable
                     });
             });
         } catch (\Illuminate\Database\QueryException $exception) {
-            \Log::info('Could not bind NovaMailEvents. NovaMail tables might not have migrated yet. This is typical when running fresh migrations during testing or local development.');
+            \Log::info(
+                'Could not bind NovaMailEvents. '
+                . 'NovaMail tables might not have migrated yet, '
+                . 'typical when running fresh migrations during testing or local development.'
+            );
         }
     }
 
