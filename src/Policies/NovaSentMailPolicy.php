@@ -2,7 +2,7 @@
 
 namespace KirschbaumDevelopment\NovaMail\Policies;
 
-use Illuminate\Foundation\Auth\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use KirschbaumDevelopment\NovaMail\Models\NovaSentMail;
 
@@ -13,12 +13,9 @@ class NovaSentMailPolicy
     /**
      * Determine whether the user can view the mail.
      *
-     * @param  \Illuminate\Foundation\Auth\User  $user
-     * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
-     *
      * @return bool
      */
-    public function view(User $user, NovaSentMail $mail)
+    public function view(Authenticatable $user, NovaSentMail $mail)
     {
         return true;
     }
@@ -26,11 +23,9 @@ class NovaSentMailPolicy
     /**
      * Determine whether the user can create mails.
      *
-     * @param  \Illuminate\Foundation\Auth\User  $user
-     *
      * @return bool
      */
-    public function create(User $user)
+    public function create(Authenticatable $user)
     {
         return false;
     }
@@ -38,12 +33,9 @@ class NovaSentMailPolicy
     /**
      * Determine whether the user can update the mail.
      *
-     * @param  \Illuminate\Foundation\Auth\User  $user
-     * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
-     *
      * @return bool
      */
-    public function update(User $user, NovaSentMail $mail)
+    public function update(Authenticatable $user, NovaSentMail $mail)
     {
         return false;
     }
@@ -51,12 +43,9 @@ class NovaSentMailPolicy
     /**
      * Determine whether the user can delete the mail.
      *
-     * @param  \Illuminate\Foundation\Auth\User  $user
-     * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
-     *
      * @return bool
      */
-    public function delete(User $user, NovaSentMail $mail)
+    public function delete(Authenticatable $user, NovaSentMail $mail)
     {
         return true;
     }
@@ -64,12 +53,9 @@ class NovaSentMailPolicy
     /**
      * Determine whether the user can restore the mail.
      *
-     * @param  \Illuminate\Foundation\Auth\User  $user
-     * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
-     *
      * @return bool
      */
-    public function restore(User $user, NovaSentMail $mail)
+    public function restore(Authenticatable $user, NovaSentMail $mail)
     {
         return false;
     }
@@ -77,12 +63,9 @@ class NovaSentMailPolicy
     /**
      * Determine whether the user can permanently delete the mail.
      *
-     * @param  \Illuminate\Foundation\Auth\User  $user
-     * @param  \KirschbaumDevelopment\NovaMail\Models\NovaSentMail  $mail
-     *
      * @return bool
      */
-    public function forceDelete(User $user, NovaSentMail $mail)
+    public function forceDelete(Authenticatable $user, NovaSentMail $mail)
     {
         return true;
     }
