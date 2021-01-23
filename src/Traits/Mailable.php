@@ -15,35 +15,43 @@ trait Mailable
      */
     public static function bootMailable()
     {
-        NovaMailTemplate::whereHas('events', function ($query) {
-            $query->whereModel(get_called_class());
-        })->each(function (NovaMailTemplate $novaMailTemplate) {
-            $novaMailTemplate->events
-                ->filter(function ($event) {
-                    return collect(config('nova_mail.eventables'))->contains($event->model);
-                })
-                ->each(function ($event) use ($novaMailTemplate) {
-                    if ($event->column) {
-                        $event->model::updated(function ($model) use ($novaMailTemplate, $event) {
-                            if ($model->isDirty($event->column)) {
-                                $value = is_bool($model->{$event->column})
-                                    ? filter_var($event->value, FILTER_VALIDATE_BOOLEAN)
-                                    : $event->value;
+        try {
+            NovaMailTemplate::whereHas('events', function ($query) {
+                $query->whereModel(get_called_class());
+            })->each(function (NovaMailTemplate $novaMailTemplate) {
+                $novaMailTemplate->events
+                    ->filter(function ($event) {
+                        return collect(config('nova_mail.eventables'))->contains($event->model);
+                    })
+                    ->each(function ($event) use ($novaMailTemplate) {
+                        if ($event->column) {
+                            $event->model::updated(function ($model) use ($novaMailTemplate, $event) {
+                                if ($model->isDirty($event->column)) {
+                                    $value = is_bool($model->{$event->column})
+                                        ? filter_var($event->value, FILTER_VALIDATE_BOOLEAN)
+                                        : $event->value;
 
-                                if (is_null($event->value) || $model->{$event->column} === $value) {
-                                    $model->sendMailTemplate($novaMailTemplate, $event);
+                                    if (is_null($event->value) || $model->{$event->column} === $value) {
+                                        $model->sendMailTemplate($novaMailTemplate, $event);
+                                    }
                                 }
-                            }
+                            });
+
+                            return;
+                        }
+
+                        $event->model::{$event->name}(function ($model) use ($novaMailTemplate, $event) {
+                            $model->sendMailTemplate($novaMailTemplate, $event);
                         });
-
-                        return;
-                    }
-
-                    $event->model::{$event->name}(function ($model) use ($novaMailTemplate, $event) {
-                        $model->sendMailTemplate($novaMailTemplate, $event);
                     });
-                });
-        });
+            });
+        } catch (\Illuminate\Database\QueryException $exception) {
+            \Log::info(
+                'Could not bind NovaMailEvents. '
+                . 'NovaMail tables might not have migrated yet, '
+                . 'typical when running fresh migrations during testing or local development.'
+            );
+        }
     }
 
     /**
