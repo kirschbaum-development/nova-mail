@@ -54,7 +54,7 @@ class Send extends Mailable implements ShouldQueue
      */
     public function __construct(
         Model $model,
-        NovaMailTemplate $mailTemplate,
+        ?NovaMailTemplate $mailTemplate,
         string $content,
         string $to,
         string $subject,
@@ -129,7 +129,7 @@ class Send extends Mailable implements ShouldQueue
     private function record()
     {
         $this->model->mails()->create([
-            'mail_template_id' => $this->mailTemplate->id,
+            'mail_template_id' => optional($this->mailTemplate)->id,
             'subject' => $this->subject,
             'content' => $this->render(),
             'mail_event_id' => $this->mailEvent ? $this->mailEvent->id : null,
