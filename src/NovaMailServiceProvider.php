@@ -4,14 +4,10 @@ namespace KirschbaumDevelopment\NovaMail;
 
 use Laravel\Nova\Nova;
 use Illuminate\Support\Facades\Gate;
-use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use KirschbaumDevelopment\NovaMail\Traits\Mailable;
-use KirschbaumDevelopment\NovaMail\Nova\NovaSentMail;
-use KirschbaumDevelopment\NovaMail\Nova\NovaMailEvent;
-use KirschbaumDevelopment\NovaMail\Nova\NovaMailTemplate;
 use KirschbaumDevelopment\NovaMail\Policies\NovaSentMailPolicy;
 use KirschbaumDevelopment\NovaMail\Exceptions\EventableMissingTrait;
 use KirschbaumDevelopment\NovaMail\Observers\NovaMailTemplateObserver;
