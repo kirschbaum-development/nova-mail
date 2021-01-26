@@ -100,9 +100,9 @@ class NovaMailServiceProvider extends ServiceProvider
     protected function nova()
     {
         Nova::resources([
-            NovaSentMail::class,
-            NovaMailEvent::class,
-            NovaMailTemplate::class,
+            config('nova_mail.default_resources.nova_sent_mail'),
+            config('nova_mail.default_resources.nova_mail_template'),
+            config('nova_mail.default_resources.nova_mail_event'),
         ]);
 
         $this->app->booted(function () {
