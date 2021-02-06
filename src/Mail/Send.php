@@ -56,7 +56,7 @@ class Send extends Mailable implements ShouldQueue
         Model $model,
         ?NovaMailTemplate $mailTemplate,
         string $content,
-        string $to,
+        $to,
         string $subject,
         $mailEvent = null,
         $sendDelayInMinutes = 0
