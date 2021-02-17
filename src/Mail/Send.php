@@ -4,6 +4,7 @@ namespace KirschbaumDevelopment\NovaMail\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,11 @@ class Send extends Mailable implements ShouldQueue
      * @var \Illuminate\Database\Eloquent\Model
      */
     public $model;
+
+    /**
+     * @var \Illuminate\Support\Facades\Auth|null
+     */
+    public $sender;
 
     /**
      * @var \KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate
@@ -62,6 +68,7 @@ class Send extends Mailable implements ShouldQueue
         $sendDelayInMinutes = 0
     ) {
         $this->model = $model;
+        $this->sender = Auth::user();
         $this->mailTemplate = $mailTemplate;
         $this->content = $content;
         $this->to($to);
