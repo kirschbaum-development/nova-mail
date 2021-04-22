@@ -58,7 +58,7 @@ class NovaSentMail extends Resource
                     return trim(strip_tags($content));
                 })
                 ->alwaysShow(),
-            DateTime::make('Sent At', 'created_at')->format('M/d/Y h:mm:ss a'),
+            DateTime::make('Sent At', 'created_at')->format('M/D/Y h:mm:ss a'),
         ];
     }
 
