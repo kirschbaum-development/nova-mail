@@ -27,10 +27,25 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Default Resources
+    |--------------------------------------------------------------------------
+    |
+    | This determines which Nova Resources you're using
+    | You can change it as you wish
+    |
+    */
+    'default_resources' => [
+        'nova_mail_event' => KirschbaumDevelopment\NovaMail\Nova\NovaMailEvent::class,
+        'nova_mail_template' => KirschbaumDevelopment\NovaMail\Nova\NovaMailTemplate::class,
+        'nova_sent_mail' => KirschbaumDevelopment\NovaMail\Nova\NovaSentMail::class,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Show Resources
     |--------------------------------------------------------------------------
     |
-    | This deterimines if the provided Nova resources
+    | This determines if the provided Nova resources
     | are displayed in the Nova navigation menu.
     |
     */
