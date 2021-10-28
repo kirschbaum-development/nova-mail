@@ -159,6 +159,44 @@ class User extends Resource
 
 ![screenshot of the sent mail index](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/nova-sent-mail.png)
 
+## Customization
+
+In case you need to customize the `Nova Resources` that you're using in your application, for instance, to add filters, cards or add fields. You can change the default set of classes.  
+First, you'll need to override the array of `Resources` found in the config file (If you haven't published a config file yet please see the **Installation** section):
+
+```php
+    /*
+    |--------------------------------------------------------------------------
+    | Default Resources
+    |--------------------------------------------------------------------------
+    |
+    | This determines which Nova Resources you're using
+    | You can change it as you wish
+    |
+    */
+    'default_resources' => [
+        'nova_mail_event' => App\Nova\YourNovaMailEventResource::class,
+        'nova_mail_template' => App\Nova\YourNovaMailTemplateResource::class,
+        'nova_sent_mail' => App\Nova\YourNovaSentMailResource::class,
+    ],
+```
+
+After that you can `extends` the default `Resource Class` and add your custom code like this:
+
+```php
+use KirschbaumDevelopment\NovaMail\Nova\NovaSentMail;
+
+class YourNovaSentMailResource extends NovaSentMail
+{
+    public function cards(Request $request)
+    {
+        return [
+            // Your custom code...
+        ];
+    }
+}
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
