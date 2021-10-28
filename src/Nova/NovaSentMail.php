@@ -6,7 +6,6 @@ use App\Nova\User;
 use Laravel\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Textarea;
@@ -52,7 +51,7 @@ class NovaSentMail extends Resource
             MorphTo::make('mailable')->hideFromIndex(),
             BelongsTo::make('Sender', 'sender', User::class),
             Text::make('Subject'),
-            BelongsTo::make('Template', 'mailTemplate', NovaMailTemplate::class),
+            BelongsTo::make('Template', 'mailTemplate', config('nova_mail.default_resources.nova_mail_template')),
             Textarea::make('Content')
                 ->displayUsing(function ($content) {
                     return trim(strip_tags($content));

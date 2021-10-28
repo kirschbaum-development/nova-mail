@@ -159,9 +159,9 @@ class User extends Resource
 
 ![screenshot of the sent mail index](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/nova-sent-mail.png)
 
-## Customization
+## Resource Customization
 
-In case you need to customize the `Nova Resources` that you're using in your application, for instance, to add filters, cards or add fields. You can change the default set of classes.  
+In case you need to customize the `Nova Resources` that you're using in your application, for instance, to add filters, cards or add fields. You can change the default set of classes.
 First, you'll need to override the array of `Resources` found in the config file (If you haven't published a config file yet please see the **Installation** section):
 
 ```php

@@ -46,7 +46,7 @@ class NovaMailEvent extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make('Template', 'mailTemplate', NovaMailTemplate::class),
+            BelongsTo::make('Template', 'mailTemplate', config('nova_mail.default_resources.nova_mail_template')),
             Text::make('Model'),
             Text::make('Event Name', 'name'),
             Text::make('Column'),
