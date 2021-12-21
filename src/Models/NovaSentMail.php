@@ -54,7 +54,7 @@ class NovaSentMail extends Model
      */
     public function sender()
     {
-        return $this->belongsTo(config('auth.providers.users.model'));
+        return $this->belongsTo(config('auth.providers.' . config('nova.guard') . '.model'));
     }
 
     /**
