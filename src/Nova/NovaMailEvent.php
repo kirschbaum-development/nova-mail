@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
 use KirschbaumDevelopment\NovaMail\Models\NovaMailEvent as NovaMailEventModel;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class NovaMailEvent extends Resource
 {
@@ -39,11 +40,9 @@ class NovaMailEvent extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     *
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(NovaRequest $request)
     {
         return [
             BelongsTo::make('Template', 'mailTemplate', config('nova_mail.default_resources.nova_mail_template')),
@@ -57,11 +56,9 @@ class NovaMailEvent extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     *
      * @return array
      */
-    public function cards(Request $request)
+    public function cards(NovaRequest $request)
     {
         return [];
     }
@@ -69,11 +66,9 @@ class NovaMailEvent extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     *
      * @return array
      */
-    public function filters(Request $request)
+    public function filters(NovaRequest $request)
     {
         return [];
     }
@@ -81,11 +76,9 @@ class NovaMailEvent extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     *
      * @return array
      */
-    public function lenses(Request $request)
+    public function lenses(NovaRequest $request)
     {
         return [];
     }
@@ -93,11 +86,9 @@ class NovaMailEvent extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     *
      * @return array
      */
-    public function actions(Request $request)
+    public function actions(NovaRequest $request)
     {
         return [];
     }
@@ -114,8 +105,6 @@ class NovaMailEvent extends Resource
 
     /**
      * Determine if this resource is available for navigation.
-     *
-     * @param  \Illuminate\Http\Request  $request
      *
      * @return bool
      */

@@ -11,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use KirschbaumDevelopment\NovaMail\Mail\Send;
 use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate;
 use KirschbaumDevelopment\NovaMail\SendMail as SendMailField;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class SendMail extends Action
 {
@@ -20,9 +21,6 @@ class SendMail extends Action
 
     /**
      * Perform the action on the given models.
-     *
-     * @param  \Laravel\Nova\Fields\ActionFields  $fields
-     * @param  \Illuminate\Support\Collection  $models
      *
      * @return mixed
      */
@@ -51,7 +49,7 @@ class SendMail extends Action
      *
      * @return array
      */
-    public function fields()
+    public function fields(NovaRequest $request)
     {
         return [
             SendMailField::make('Mail'),
