@@ -1,4 +1,4 @@
-![banner](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/banner.png)
+![banner](screenshots/banner.png)
 # Nova Mail
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/kirschbaum-development/nova-mail.svg?style=flat-square)](https://packagist.org/packages/kirschbaum-development/nova-mail)
@@ -6,13 +6,11 @@
 
 This package contains a Nova action that provides a mail sending form for any resource to easily send email. It also includes automated mail sending based on Eloquent Model events/attribute changes.
 
-![screenshot of the send mail action modal](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/send-mail-modal-empty.png)
+![screenshot of the send mail action modal](screenshots/send-mail-modal-empty.png)
 
-![screenshot of the send mail action modal with template selected](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/send-mail-modal-template-selected.png)
+![screenshot of the send mail action modal with template selected](screenshots/send-mail-modal-template-selected.png)
 
-![screenshot of sent email in mailtrap](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/sent-mail.png)
-
-![screenshot of mail template model events](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/mail-template-model-events.png)
+![screenshot of mail template model events](screenshots/mail-template-model-events.png)
 
 ## Requirements
 
@@ -102,11 +100,11 @@ You can also delay any outgoing email by setting the delay in minutes property o
 
 A `MailTemplate` can be configured to respond to Eloquent Model events, or a value change of a specified column. For example, a mail template informing your users of their account status could be sent when the `active` column on your `User` model is updated:
 
-![screenshot of the account status mail template](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/model-event-account-status-change.png)
+![screenshot of the account status mail template](screenshots/model-event-account-status-change.png)
 
 You can even have separate Model Events for both "on" an "off"!
 
-![screenshot of the account status with value mail template](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/model-event-account-status-change.png)
+![screenshot of the account status with value mail template](screenshots/model-event-account-status-change-with-value.png)
 
 ### Mail Template Usage/Caveats
 
@@ -128,7 +126,7 @@ Let me know if you have any questions.
 @endcomponent
 ```
 
-![screenshot of the create mail template](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/create-mail-template.png)
+![screenshot of the create mail template](screenshots/create-mail-template.png)
 
 ### Sent Mail Usage
 
@@ -157,7 +155,7 @@ class User extends Resource
 }
 ```
 
-![screenshot of the sent mail index](https://raw.githubusercontent.com/kirschbaum-development/nova-mail/master/screenshots/nova-sent-mail.png)
+![screenshot of the sent mail index](screenshots/nova-sent-mail.png)
 
 ## Resource Customization
 
