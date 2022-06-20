@@ -14,7 +14,7 @@ This package contains a Nova action that provides a mail sending form for any re
 
 ## Requirements
 
-This Nova package requires Nova 2.0 or higher.
+This Nova package requires Nova 4.0 or higher. If you are using a Nova version < 4.0, then you'll want to use [v1.0.4](https://github.com/kirschbaum-development/nova-mail/tree/1.0.4) (no longer updated).
 
 Using the mail delay feature requires a queue driver other than sync. If you are using the Amazon SQS queue service, the maximum delay time is 15 minutes.
 
