@@ -1,39 +1,43 @@
 <template>
-  <default-field :field="field" :errors="errors">
-    <template v-if="field.eventables.length > 0" slot="field">
-      <div :class="{'mt-3': index != 0}" v-for="(event, index) in events" :key="index">
-        <select-control
+  <DefaultField :field="field" :errors="errors" :show-help-text="showHelpText">
+    <template v-if="field.eventables.length > 0" #field>
+      <div :class="{'mt-3': index != 0}" v-for="(event, index) in events" :key="event.id">
+        <SelectControl
           :class="errorClasses"
-          :disabled="isReadonly"
+          :disabled="currentlyIsReadOnly"
           :options="field.eventables"
-          v-model="event.model"
-          class="w-full form-control form-select"
+          :selected="event.model"
+          @change="event.model = $event"
+          class="w-full"
+          :select-classes="{ 'form-input-border-error': hasError }"
           :id="field.attribute + '-' + index + '-model'"
         >
           <option value selected>{{ __('Choose an option') }}</option>
-        </select-control>
+        </SelectControl>
 
-        <select-control
+        <SelectControl
           v-if="event.model"
-          v-model="event.name"
+          :selected="event.name"
+          @change="event.name = $event"
           :options="getEvents(event)"
-          class="mt-2 w-full form-control form-select"
+          class="mt-2 w-full"
           :id="field.attribute + '-' + index + '-event'"
         >
           <option value selected>{{ __('Choose an option') }}</option>
-        </select-control>
+        </SelectControl>
 
-        <select-control
-          v-if="event.name && event.name == 'updated'"
-          v-model="event.column"
+        <SelectControl
+          v-if="event.name && isUpdatedEvent(event)"
+          :selected="event.column"
+          @change="event.column = $event"
           :options="getColumns(event)"
-          class="mt-2 w-full form-control form-select"
+          class="mt-2 w-full"
           :id="field.attribute + '-' + index + '-column'"
         >
           <option value selected>{{ __('Choose an option') }}</option>
-        </select-control>
+        </SelectControl>
 
-        <div class="w-full" v-if="event.column && isValidEvent(event)">
+        <div class="w-full" v-if="event.column && isUpdatedEvent(event) && isValidEvent(event)">
           <checkbox-with-label
             class="m-2"
             :checked="event.anyValue || false"
@@ -44,7 +48,7 @@
             type="text"
             placeholder="Column Value"
             v-model="event.value"
-            v-if="! event.anyValue"
+            v-if="! event.anyValue && isUpdatedEvent(event)"
             :id="field.attribute + '-' + index + '-value'"
             class="w-full form-control form-input form-input-bordered"
           />
@@ -73,12 +77,12 @@
         </div>
       </div>
     </template>
-    <template v-else slot="field">
+    <template v-else #field>
       <div
         class="text-80 italic pt-2"
       >To send Mail Templates on a Model event - please update your "nova_mail" config!</div>
     </template>
-  </default-field>
+  </DefaultField>
 </template>
 
 <script>
@@ -107,23 +111,23 @@ export default {
     }
   },
 
-  mounted() {
-    if (this.field.value) {
-      this.$set(this, 'events', _.map(this.field.value, event => {
-        return {
-          ...event,
-          value: event.value,
-          anyValue: _.isNull(event.value),
-        };
-      }));
-    }
-
-    if (this.events.length == 0) {
-      this.addEvent();
-    }
-  },
-
   methods: {
+    setInitialValue() {
+      if (this.field.value) {
+        this.events = _.map(this.field.value, event => {
+          return {
+            ...event,
+            value: event.value,
+            anyValue: _.isNull(event.value),
+          };
+        });
+      }
+
+      if (this.events.length == 0) {
+        this.addEvent();
+      }
+    },
+
     getEvents(event) {
       return event.model ? this.field.eventables.find(model => model.value == event.model).events : [];
     },
@@ -150,7 +154,11 @@ export default {
     },
 
     isValidEvent(event) {
-      return event.model != '' && event.name != ''
+      return event.model != '' && event.name != '';
+    },
+
+    isUpdatedEvent(event) {
+      return event.name == 'updated';
     },
 
     updateCheckedState(event, e) {
@@ -167,9 +175,21 @@ export default {
   watch: {
     events: {
       handler(newValue, oldValue) {
-        const data = _.chain(this.events).filter(event => {
-          return this.isValidEvent(event);
-        }).value();
+        const data = _.chain(this.events)
+          .filter(event => {
+            return this.isValidEvent(event);
+          })
+          .map(event => {
+            if (! this.isUpdatedEvent(event)) {
+              event.column = null;
+              event.value = null;
+              event.anyValue = true;
+            }
+
+            return event;
+          })
+          .value();
+
         this.handleChange(JSON.stringify(data));
       },
       deep: true,

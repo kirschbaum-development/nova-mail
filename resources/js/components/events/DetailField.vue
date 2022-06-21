@@ -1,85 +1,55 @@
 <template>
-  <panel-item :field="field">
-    <template slot="value">
-      <div
-        style="background-clip: border-box;"
-        class="relative rounded-t-lg shadow bg-30 border border-60"
-      >
-        <div class="flex border-b border-50">
-          <div class="flex-1 uppercase font-bold text-xs text-80 tracking-wide px-3 py-3">Model</div>
-          <div
-            class="flex-1 uppercase font-bold text-xs text-80 tracking-wide px-3 py-3 border-l border-50"
-          >Event Name</div>
-          <div
-            class="flex-1 uppercase font-bold text-xs text-80 tracking-wide px-3 py-3 border-l border-50"
-          >Column</div>
-          <div
-            class="flex-1 uppercase font-bold text-xs text-80 tracking-wide px-3 py-3 border-l border-50"
-          >Value</div>
-        </div>
-      </div>
-
-      <div v-if="events.length > 0" class="bg-white rounded-b-lg overflow-hidden">
-        <div v-for="(item, index) in events" :key="index" class="flex items-center">
-          <div class="flex flex-grow border-b border-50">
-            <div class="flex-1 cursor-text">
-              <textarea
-                type="text"
-                :disabled="true"
-                v-html="item.model"
-                class="font-mono text-sm resize-none block hover:bg-20 min-h-input w-full form-control form-input form-input-row py-4"
-              />
-            </div>
-
-            <div class="flex-1 cursor-text">
-              <div class="border-l border-50">
-                <textarea
-                  type="text"
-                  :disabled="true"
-                  v-html="item.event"
-                  class="font-mono text-sm resize-none block hover:bg-20 min-h-input w-full form-control form-input form-input-row py-4"
-                ></textarea>
-              </div>
-            </div>
-
-            <div class="flex-1 cursor-text">
-              <div class="border-l border-50">
-                <textarea
-                  type="text"
-                  :disabled="true"
-                  v-html="item.column"
-                  class="font-mono text-sm resize-none block hover:bg-20 min-h-input w-full form-control form-input form-input-row py-4"
-                ></textarea>
-              </div>
-            </div>
-
-            <div class="flex-1 cursor-text">
-              <div class="border-l border-50">
-                <textarea
-                  type="text"
-                  :disabled="true"
-                  v-html="itemValueHtml(item)"
-                  class="font-mono text-sm resize-none block hover:bg-20 min-h-input w-full form-control form-input form-input-row py-4"
-                ></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div v-else class="bg-white overflow-hidden">
-        <div class="flex items-center">
-          <div class="flex flex-grow border-b border-50">
-            <textarea
-              type="text"
-              :disabled="true"
-              class="text-center font-mono text-sm resize-none block hover:bg-20 min-h-input w-full form-control form-input form-input-row py-4"
-            >No Model Events attached...</textarea>
-          </div>
+  <PanelItem :index="index" :field="field">
+    <template #value>
+      <div class="relative">
+        <div class="overflow-hidden overflox-x-auto relative">
+          <table class="w-full table-default">
+            <thead class="bg-gray-50 dark:bg-gray-800">
+              <tr>
+                <th class="text-left px-2 whitespace-nowrap uppercase text-xxs text-gray-500 tracking-wide py-2">Model</th>
+                <th class="text-left px-2 whitespace-nowrap uppercase text-xxs text-gray-500 tracking-wide py-2">Event Name</th>
+                <th class="text-left px-2 whitespace-nowrap uppercase text-xxs text-gray-500 tracking-wide py-2">Column</th>
+                <th class="text-left px-2 whitespace-nowrap uppercase text-xxs text-gray-500 tracking-wide py-2">Value</th>
+              </tr>
+            </thead>
+            <tbody v-if="events.length > 0">
+              <tr class="group" v-for="(item, index) in events" :key="index">
+                <td class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 cursor-pointer whitespace-nowrap dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900">
+                  <div class="text-left">
+                    <span class="text-90 whitespace-nowrap" v-html="item.model"></span>
+                  </div>
+                </td>
+                <td class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 cursor-pointer whitespace-nowrap dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900">
+                  <div class="text-left">
+                    <span class="text-90 whitespace-nowrap" v-html="item.event"></span>
+                  </div>
+                </td>
+                <td class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 cursor-pointer whitespace-nowrap dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900">
+                  <div class="text-left">
+                    <span v-if="item.column" class="text-90 whitespace-nowrap" v-html="item.column"></span>
+                    <span v-else><p>—</p></span>
+                  </div>
+                </td>
+                <td class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 cursor-pointer whitespace-nowrap dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900">
+                  <div class="text-left">
+                    <span v-if="item.value != null" class="text-90 whitespace-nowrap" v-html="itemValueHtml(item)"></span>
+                    <span v-else><p>—</p></span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tbody v-else>
+              <tr class="group">
+                <td colspan="4" class="px-2 py-2 border-t border-gray-100 dark:border-gray-700 cursor-pointer whitespace-nowrap dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900 text-center">
+                  No Model Events attached...
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </template>
-  </panel-item>
+  </PanelItem>
 </template>
 
 <script>

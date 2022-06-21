@@ -8,8 +8,6 @@ class NovaMailTemplateObserver
 {
     /**
      * Observer for model deleted event
-     *
-     * @param \KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate $novaMailTemplate
      */
     public function deleted(NovaMailTemplate $novaMailTemplate)
     {

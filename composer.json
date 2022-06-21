@@ -9,6 +9,9 @@
     "require": {
         "php": ">=7.1.0"
     },
+    "require-dev": {
+        "laravel/nova": "^4.0"
+    },
     "autoload": {
         "psr-4": {
             "KirschbaumDevelopment\\NovaMail\\": "src/"
@@ -25,5 +28,11 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ]
 }

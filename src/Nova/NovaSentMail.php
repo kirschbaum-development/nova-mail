@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use KirschbaumDevelopment\NovaMail\Models\NovaSentMail as NovaSentMailModel;
 
 class NovaSentMail extends Resource
@@ -41,11 +42,9 @@ class NovaSentMail extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     *
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(NovaRequest $request)
     {
         return [
             MorphTo::make('mailable')->hideFromIndex(),
@@ -57,18 +56,16 @@ class NovaSentMail extends Resource
                     return trim(strip_tags($content));
                 })
                 ->alwaysShow(),
-            DateTime::make('Sent At', 'created_at')->format('M/D/Y h:mm:ss a'),
+            DateTime::make('Sent At', 'created_at'),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     *
      * @return array
      */
-    public function cards(Request $request)
+    public function cards(NovaRequest $request)
     {
         return [];
     }
@@ -76,11 +73,9 @@ class NovaSentMail extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     *
      * @return array
      */
-    public function filters(Request $request)
+    public function filters(NovaRequest $request)
     {
         return [];
     }
@@ -88,11 +83,9 @@ class NovaSentMail extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     *
      * @return array
      */
-    public function lenses(Request $request)
+    public function lenses(NovaRequest $request)
     {
         return [];
     }
@@ -100,11 +93,9 @@ class NovaSentMail extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     *
      * @return array
      */
-    public function actions(Request $request)
+    public function actions(NovaRequest $request)
     {
         return [];
     }
@@ -121,8 +112,6 @@ class NovaSentMail extends Resource
 
     /**
      * Determine if this resource is available for navigation.
-     *
-     * @param  \Illuminate\Http\Request  $request
      *
      * @return bool
      */

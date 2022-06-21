@@ -2,6 +2,7 @@
 
 namespace KirschbaumDevelopment\NovaMail\Traits;
 
+use Illuminate\Support\Facades\Log;
 use KirschbaumDevelopment\NovaMail\Mail\Send;
 use KirschbaumDevelopment\NovaMail\Models\NovaSentMail;
 use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate;
@@ -46,7 +47,7 @@ trait Mailable
                     });
             });
         } catch (\Illuminate\Database\QueryException $exception) {
-            \Log::info(
+            Log::info(
                 'Could not bind NovaMailEvents. '
                 . 'NovaMail tables might not have migrated yet, '
                 . 'typical when running fresh migrations during testing or local development.'
