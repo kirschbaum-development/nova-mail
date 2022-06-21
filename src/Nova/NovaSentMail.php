@@ -10,8 +10,8 @@ use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
-use KirschbaumDevelopment\NovaMail\Models\NovaSentMail as NovaSentMailModel;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use KirschbaumDevelopment\NovaMail\Models\NovaSentMail as NovaSentMailModel;
 
 class NovaSentMail extends Resource
 {

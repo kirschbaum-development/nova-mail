@@ -56,6 +56,10 @@ class Send extends Mailable implements ShouldQueue
     /**
      * Create a new message instance.
      *
+     * @param mixed $to
+     * @param null|mixed $mailEvent
+     * @param mixed $sendDelayInMinutes
+     *
      * @return void
      */
     public function __construct(

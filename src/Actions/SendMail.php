@@ -8,10 +8,10 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Fields\ActionFields;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use KirschbaumDevelopment\NovaMail\Mail\Send;
 use KirschbaumDevelopment\NovaMail\Models\NovaMailTemplate;
 use KirschbaumDevelopment\NovaMail\SendMail as SendMailField;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class SendMail extends Action
 {
