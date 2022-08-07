@@ -2,7 +2,6 @@
 
 namespace KirschbaumDevelopment\NovaMail\Nova;
 
-use App\Nova\User;
 use Laravel\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
@@ -48,7 +47,7 @@ class NovaSentMail extends Resource
     {
         return [
             MorphTo::make('mailable')->hideFromIndex(),
-            BelongsTo::make('Sender', 'sender', User::class),
+            BelongsTo::make('Sender', 'sender', config('nova_mail.default_resources.nova_user')),
             Text::make('Subject'),
             BelongsTo::make('Template', 'mailTemplate', config('nova_mail.default_resources.nova_mail_template')),
             Textarea::make('Content')

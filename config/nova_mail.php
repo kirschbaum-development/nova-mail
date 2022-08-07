@@ -38,6 +38,7 @@ return [
         'nova_mail_event' => KirschbaumDevelopment\NovaMail\Nova\NovaMailEvent::class,
         'nova_mail_template' => KirschbaumDevelopment\NovaMail\Nova\NovaMailTemplate::class,
         'nova_sent_mail' => KirschbaumDevelopment\NovaMail\Nova\NovaSentMail::class,
+        'nova_user' => App\Nova\User::class,
     ],
 
     /*
